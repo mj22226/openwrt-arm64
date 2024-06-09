@@ -1,2 +1,2 @@
-# openwrt-arch64
-OpenWrt arch64
+# openwrt-arm64
+OpenWrt aarch64
