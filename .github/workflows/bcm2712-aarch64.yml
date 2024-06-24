@@ -37,8 +37,8 @@ jobs:
                 sed -i "13s/'1'/'0'/" feeds/packages/utils/dockerd/files/etc/config/dockerd
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
-                wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-15.0.7/llvm-bpf-15.0.7.Linux-aarch64.tar.zst
-                tar -xvf llvm-bpf-15.0.7.Linux-aarch64.tar.zst
+                wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-18.1.7/llvm-bpf-18.1.7.Linux-aarch64.tar.zst
+                tar -xvf llvm-bpf-18.1.7.Linux-aarch64.tar.zst
                 cp .github/workflows/config.buildinfo .config
                 make defconfig
                 wget https://gist.githubusercontent.com/mj22226/23edc25efeb65ef69d8eb6598f4f8179/raw/29c862e3e2558852523f4e8edd5f3d0cc145067e/01-key.patch
@@ -46,8 +46,6 @@ jobs:
                 cp -rf ~/dl .
                 make download -j32
                 rm 01-key.patch
-
-
                 mkdir -p files/www/repo
                 wget https://gist.githubusercontent.com/mj22226/242ed658f24ee582678ab50b553641ac/raw/ba143f1f72fe9be44c61288ac80267299ea9701e/03.patch
                 git apply 03.patch
@@ -55,6 +53,22 @@ jobs:
                 cp -R bin/targets/bcm27xx/bcm2712/packages/ files/www/repo/
                 rm -rf bin/targets/bcm27xx/bcm2712/*.gz
                 make -j$(nproc) 'IGNORE_ERRORS=n m'
-
+                echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
                 cp -rf dl ~/
-
+            - name: Delete tag
+              uses: ClementTsang/delete-tag-and-release@v0.4.0
+              with:
+                delete_release: true
+                tag_name: bcm2712-6.6
+              env:
+                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create release
+              uses: ncipollo/release-action@v1.14.0
+              with:
+                allowUpdates: true
+                name: RPi 5 Firmware Images ${{ env.D }}
+                tag: bcm2712-6.6
+                replacesArtifacts: true
+                makeLatest: true
+                token: "${{ secrets.GITHUB_TOKEN }}"
+                artifacts: openwrt/bin/targets/bcm27xx/bcm2712/*
