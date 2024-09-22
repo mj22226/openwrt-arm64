@@ -13,14 +13,8 @@ jobs:
                 git clone https://github.com/openwrt/openwrt.git
                 cp .github/workflows/rockchip openwrt/.config
                 cd openwrt
-                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/15702.patch
-                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/15703.patch
-
-
-                git apply 15702.patch
-                git apply 15703.patch
-
-
+                wget https://github.com/mj22226/source/commit/d9e9d343e650537cdcba2bef208988481b634475.patch
+                git apply d9e9d343e650537cdcba2bef208988481b634475.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 make defconfig
@@ -35,15 +29,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: rockchip-18.1.7
+                tag_name: rockchip-19.1.0
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@v1.14.0
               with:
                 allowUpdates: true
-                name: ROCKCHIP LLVM TOOLCHAIN v18.1.7 aarch64 ${{ env.D }}
-                tag: rockchip-18.1.7
+                name: ROCKCHIP LLVM TOOLCHAIN v19.1.0 aarch64 ${{ env.D }}
+                tag: rockchip-19.1.0
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
