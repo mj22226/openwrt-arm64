@@ -58,7 +58,6 @@ jobs:
                 git apply 03.patch
                 make -j$(nproc) 'IGNORE_ERRORS=n m' || true
                 cp -R bin/targets/bcm27xx/bcm2712/packages/ files/www/repo/
-                tar -czvf bin/target/bcm27xx/bcm2712/logs.tar.gz logs
                 make -j$(nproc) 'IGNORE_ERRORS=n m' || true
                 rm -rf bin/targets/bcm27xx/bcm2712/packages
                 echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
