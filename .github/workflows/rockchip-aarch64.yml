@@ -35,8 +35,10 @@ jobs:
 
                 cd -
                 cd  feeds/packages
+                wget https://github.com/mj22226/packages/commit/98859aa58a5fe1b8cbb92b17a4d80039048db7d1.patch
                 wget https://github.com/mj22226/packages/commit/94538655a951d66b94778eb215289899b77c4720.patch
                 wget https://gist.githubusercontent.com/mj22226/b66f5c1bd5fc7e1cb3cf2c690b5dbd5a/raw/b955e726cbb0948d932c8d6143229ad604320149/20-lxc.patch
+                git apply 98859aa58a5fe1b8cbb92b17a4d80039048db7d1.patch
                 git apply 94538655a951d66b94778eb215289899b77c4720.patch
                 git apply 20-lxc.patch
                 cd -
