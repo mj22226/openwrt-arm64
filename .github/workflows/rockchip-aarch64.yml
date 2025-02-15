@@ -49,8 +49,8 @@ jobs:
                 sed -i "13s/'1'/'0'/" feeds/packages/utils/dockerd/files/etc/config/dockerd
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
-                wget https://github.com/mj22226/openwrt-arm64/releases/download/rockchip-18.1.7/llvm-bpf-18.1.7.Linux-aarch64.tar.zst
-                tar -xvf llvm-bpf-18.1.7.Linux-aarch64.tar.zst
+                wget https://github.com/mj22226/openwrt-arm64/releases/download/rockchip-19.1.7/llvm-bpf-19.1.7.Linux-aarch64.tar.zst
+                tar -xvf llvm-bpf-19.1.7.Linux-aarch64.tar.zst
                 cp .github/workflows/rk-config .config
                 echo 'CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT="/opt/hostedtoolcache/go/1.23.5/arm64/bin"' >> .config
                 make defconfig
