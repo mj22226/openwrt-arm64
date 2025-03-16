@@ -33,7 +33,7 @@ jobs:
                 git apply 01-diskman.patch
                 cd -
                 cd  feeds/packages
-                wget https://gist.githubusercontent.com/mj22226/351f11e66f08f06e37a985719a31ddb4/raw/b35ba7a3aac1949bd6bbeaad065a0a93dc3c34f0/01-cpu.patch
+                wget https://gist.githubusercontent.com/mj22226/351f11e66f08f06e37a985719a31ddb4/raw/2cf67633587d351b66fdf1bd902df6494cd42e68/01-cpu.patch
                 wget https://gist.githubusercontent.com/mj22226/b66f5c1bd5fc7e1cb3cf2c690b5dbd5a/raw/b955e726cbb0948d932c8d6143229ad604320149/20-lxc.patch
                 git apply 01-cpu.patch
                 git apply 20-lxc.patch
