@@ -58,10 +58,11 @@ jobs:
                 mkdir -p files/www/repo
                 wget https://gist.githubusercontent.com/mj22226/490578bc27f30cbaf3eef1d7acfcb849/raw/e97b4c5f856b8bf1963589c7fdc940b57571486a/03.patch
                 git apply 03.patch
-                make -j$(nproc) 'IGNORE_ERRORS=n m'
-                cp -R bin/targets/bcm27xx/bcm2712/packages/ files/www/repo/
-                make -j$(nproc) 'IGNORE_ERRORS=n m'
-                rm -rf bin/targets/bcm27xx/bcm2712/packages
+                make -j$(nproc) 'IGNORE_ERRORS=n m' || true
+                tar -czvf bin/targets/bcm27xx/bcm2712/logs.tar.gz logs
+                cp -R bin/targets/bcm27xx/bcm2712/packages/ files/www/repo/ || true
+                make -j$(nproc) 'IGNORE_ERRORS=n m' || true
+                rm -rf bin/targets/bcm27xx/bcm2712/packages || true
                 echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
             - name: Delete tag
               uses: ClementTsang/delete-tag-and-release@v0.4.0
