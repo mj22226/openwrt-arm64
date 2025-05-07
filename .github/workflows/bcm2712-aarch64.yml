@@ -26,6 +26,7 @@ jobs:
                 git format-patch main...linux-6.6 --stdout > 001.patch
                 git checkout main
                 git apply 001.patch
+                git revert --no-commit e8b470139c78db269f0ac4908662d7aa9c4586ed
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 cd feeds/luci
