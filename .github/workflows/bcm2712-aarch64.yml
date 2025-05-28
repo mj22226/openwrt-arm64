@@ -60,8 +60,6 @@ jobs:
                 git apply 03.patch
                 make -j$(nproc) 'IGNORE_ERRORS=n m' || true
                 tar -czvf bin/targets/bcm27xx/bcm2712/logs.tar.gz logs
-                cp -R bin/targets/bcm27xx/bcm2712/packages/ files/www/repo/ || true
-                make -j$(nproc) 'IGNORE_ERRORS=n m' || true
                 rm -rf bin/targets/bcm27xx/bcm2712/packages || true
                 echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
             - name: Delete tag
