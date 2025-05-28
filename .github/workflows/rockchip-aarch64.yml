@@ -26,6 +26,8 @@ jobs:
                 git format-patch main...linux-6.6 --stdout > 001.patch
                 git checkout main
                 git apply 001.patch
+                wget https://gist.githubusercontent.com/mj22226/6f7556aeff81bd1601b310f7e878b3ca/raw/256c2c9665e1cf4d327888dab3e20d6610236785/kmod-apk.patch
+                git apply kmod-apk.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 cd feeds/luci
@@ -57,9 +59,6 @@ jobs:
                 mkdir -p files/www/repo
                 wget https://gist.githubusercontent.com/mj22226/2ce53b7a5e5742be6f9052a4e4d3203d/raw/674531914187c1afa92427ef51e6fa01f95aae3f/feeds-rk.patch
                 git apply feeds-rk.patch
-                make -j$(nproc) 'IGNORE_ERRORS=n m'
-                cp -R bin/targets/rockchip/armv8/packages/ files/www/repo/
-                rm -rf bin/targets/rockchip/armv8/*.gz
                 make -j$(nproc) 'IGNORE_ERRORS=n m'
                 rm -rf bin/targets/rockchip/armv8/packages
                 echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
