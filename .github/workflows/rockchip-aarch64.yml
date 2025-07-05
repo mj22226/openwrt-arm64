@@ -13,7 +13,7 @@ jobs:
             - name: Setup Go
               uses: actions/setup-go@v5
               with:
-                go-version: '1.23.5'
+                go-version: '1.24.4'
             - name: checkout
               uses: actions/checkout@v4
             - name: Build
@@ -43,6 +43,7 @@ jobs:
                 sed -i "195s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
                 sed -i "212s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
                 sed -i "13s/'1'/'0'/" feeds/packages/utils/dockerd/files/etc/config/dockerd
+                sed -i "4s/login/login -f root/" feeds/packages/utils/ttyd/files/ttyd.config
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
                 wget https://github.com/mj22226/openwrt-arm64/releases/download/rockchip-19.1.7/llvm-bpf-19.1.7.Linux-aarch64.tar.zst
@@ -50,7 +51,7 @@ jobs:
                 cp .github/workflows/rk-config .config
                 echo "# CONFIG_ARM64_CONTPTE is not set" >> target/linux/generic/config-6.12
                 echo "# CONFIG_DRM_WERROR is not set" >> target/linux/generic/config-6.12
-                echo 'CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT="/opt/hostedtoolcache/go/1.23.5/arm64/bin"' >> .config
+                echo 'CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT="/opt/hostedtoolcache/go/1.24.4/arm64/bin"' >> .config
                 make defconfig
                 wget https://gist.githubusercontent.com/mj22226/9a69bb754a83e8a5cf03fcc60d62d473/raw/cc6f36831d6098de4a7fccf04a312d36a0dbc999/01-key.patch
                 git apply 01-key.patch
@@ -66,15 +67,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: rockchip-6.6
+                tag_name: rockchip-6.12
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@v1.14.0
               with:
                 allowUpdates: true
-                name: Rockchip v6.6 Firmware Images ${{ env.D }}
-                tag: rockchip-6.6
+                name: Rockchip v6.12 Firmware Images ${{ env.D }}
+                tag: rockchip-6.12
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
