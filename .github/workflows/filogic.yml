@@ -4,7 +4,7 @@ on:
 jobs:
     build:
         name: Build Filogic OpenWrt llvm toolchain for aarch64
-        runs-on: self-hosted
+        runs-on: ubuntu-24.04-arm
         steps:
             - name: checkout
               uses: actions/checkout@v4
@@ -13,32 +13,30 @@ jobs:
                 git clone https://github.com/openwrt/openwrt.git
                 cp .github/workflows/filogic openwrt/.config
                 cd openwrt
-                wget https://github.com/mj22226/source/commit/d9e9d343e650537cdcba2bef208988481b634475.patch
-                git apply d9e9d343e650537cdcba2bef208988481b634475.patch
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/19417.patch
+                git apply 19417.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 make defconfig
-                cp -rf ~/dl .
                 make download -j32
                 make tools/install -j4
                 make -j$(nproc) 'IGNORE_ERRORS=n m'
                 rm -rf bin/targets/mediatek/filogic/packages
                 rm -f bin/targets/mediatek/filogic/*.bin
                 echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
-                cp -rf dl ~/
             - name: Delete tag
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: filogic-19.1.0
+                tag_name: filogic-20.1.8
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@v1.14.0
               with:
                 allowUpdates: true
-                name: FILOGIC LLVM TOOLCHAIN v19.1.0 aarch64 ${{ env.D }}
-                tag: filogic-19.1.0
+                name: FILOGIC LLVM TOOLCHAIN v20.1.8 aarch64 ${{ env.D }}
+                tag: filogic-20.1.8
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
