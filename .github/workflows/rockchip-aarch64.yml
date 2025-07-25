@@ -46,8 +46,8 @@ jobs:
                 sed -i "4s/login/login -f root/" feeds/packages/utils/ttyd/files/ttyd.config
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
-                wget https://github.com/mj22226/openwrt-arm64/releases/download/rockchip-19.1.7/llvm-bpf-19.1.7.Linux-aarch64.tar.zst
-                tar -xvf llvm-bpf-19.1.7.Linux-aarch64.tar.zst
+                wget https://github.com/mj22226/openwrt-arm64/releases/download/rockchip-20.1.8/llvm-bpf-20.1.8.Linux-aarch64.tar.zst
+                tar -xvf llvm-bpf-20.1.8.Linux-aarch64.tar.zst
                 cp .github/workflows/rk-config .config
                 echo "# CONFIG_ARM64_CONTPTE is not set" >> target/linux/generic/config-6.12
                 echo "# CONFIG_DRM_WERROR is not set" >> target/linux/generic/config-6.12
