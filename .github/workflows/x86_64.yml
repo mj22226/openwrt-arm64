@@ -13,8 +13,6 @@ jobs:
                 git clone https://github.com/openwrt/openwrt.git
                 cp .github/workflows/x86_64 openwrt/.config
                 cd openwrt
-                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/19417.patch
-                git apply 19417.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 make defconfig
