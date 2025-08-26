@@ -46,6 +46,7 @@ jobs:
                 sed -i 's/default n/default y/g' feeds/packages/utils/dockerd/Config.in
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
+                rm -rf feeds/packages/net/nfs-kernel-server
                 wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-20.1.8/llvm-bpf-20.1.8.Linux-aarch64.tar.zst
                 tar -xvf llvm-bpf-20.1.8.Linux-aarch64.tar.zst
                 cp .github/workflows/config.buildinfo .config
