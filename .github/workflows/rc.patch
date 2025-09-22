@@ -1,0 +1,22 @@
+From 1fae0297fb29da048e076948b3987572fde067fc Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Thu, 26 Jun 2025 11:30:50 -0400
+Subject: [PATCH 3/5] kernel: rc sources
+
+---
+ scripts/projectsmirrors.json | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/projectsmirrors.json b/scripts/projectsmirrors.json
+index 9763f301e8..ee79e37064 100644
+--- a/scripts/projectsmirrors.json
++++ b/scripts/projectsmirrors.json
+@@ -58,6 +58,8 @@
+ 		"http://ftp.nara.wide.ad.jp/pub/X11/GNOME/sources"
+ 	],
+ 	"@OPENWRT": [
++		"https://github.com/mj22226/linux/releases/download/v6.6/",
++		"https://github.com/mj22226/linux/releases/download/v6.12/",
+ 		"https://sources.cdn.openwrt.org",
+ 		"https://sources.openwrt.org",
+ 		"https://mirror2.openwrt.org/sources"
