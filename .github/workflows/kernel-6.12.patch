@@ -1,0 +1,22 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0018-arm64-setup-Fix-build-warning.patch b/target/linux/bcm27xx/patches-6.12/950-0018-arm64-setup-Fix-build-warning.patch
+index 0867cda6de..cca6e76064 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0018-arm64-setup-Fix-build-warning.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0018-arm64-setup-Fix-build-warning.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+ @@ -214,9 +214,9 @@ static void __init request_standard_reso
+  	size_t res_size;
+  
+- 	kernel_code.start   = __pa_symbol(_stext);
++ 	kernel_code.start   = __pa_symbol(_text);
+ -	kernel_code.end     = __pa_symbol(__init_begin - 1);
+ +	kernel_code.end     = __pa_symbol(__init_begin) - 1;
+  	kernel_data.start   = __pa_symbol(_sdata);
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 025f59067d..e142500660 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .53
+-LINUX_KERNEL_HASH-6.12.53 = 663507accae673afcf4e210b4ae8d4352e61d926202e5da3f04bf71ca1d2c0b5
++LINUX_VERSION-6.12 = .54
++LINUX_KERNEL_HASH-6.12.54 = 6d38c38d2a287a2313d193a91875837189ac94e7a25ed1f97b17ba591f4e994c

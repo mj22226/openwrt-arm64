@@ -1,0 +1,530 @@
+From 211c215f919c19d7c7d6bf6b9aade96f03a6e73d Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Thu, 26 Jun 2025 11:30:50 -0400
+Subject: [PATCH 1/5] kernel: rc sources
+
+---
+ scripts/projectsmirrors.json | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/projectsmirrors.json b/scripts/projectsmirrors.json
+index 9763f301e8..ee79e37064 100644
+--- a/scripts/projectsmirrors.json
++++ b/scripts/projectsmirrors.json
+@@ -58,6 +58,8 @@
+ 		"http://ftp.nara.wide.ad.jp/pub/X11/GNOME/sources"
+ 	],
+ 	"@OPENWRT": [
++		"https://github.com/mj22226/linux/releases/download/v6.6/",
++		"https://github.com/mj22226/linux/releases/download/v6.12/",
+ 		"https://sources.cdn.openwrt.org",
+ 		"https://sources.openwrt.org",
+ 		"https://mirror2.openwrt.org/sources"
+-- 
+2.51.0
+
+
+From 96651c25d35ad1cfe5b25a83d6c4ef17fc79e05f Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Fri, 10 Oct 2025 15:59:17 +0000
+Subject: [PATCH 2/5] kernel: Linux 6.6.111
+
+https://lore.kernel.org/all/20251010131330.355311487@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ target/linux/generic/kernel-6.6 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/linux/generic/kernel-6.6 b/target/linux/generic/kernel-6.6
+index d6270b06ef..04111e0155 100644
+--- a/target/linux/generic/kernel-6.6
++++ b/target/linux/generic/kernel-6.6
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.6 = .110
+-LINUX_KERNEL_HASH-6.6.110 = 1bf20daf5543b8759f325e55fb0da4913715e68741627a13380e66aaf219fb1d
++LINUX_VERSION-6.6 = .111
++LINUX_KERNEL_HASH-6.6.111 = 04c470e130d659ef05217ac695422c28d817d19daa50643fe28b945e6ab646c7
+-- 
+2.51.0
+
+
+From 27a722e7af97953f0d6ece661aa53b8ad8482169 Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Fri, 10 Oct 2025 15:44:24 +0000
+Subject: [PATCH 3/5] kernel: Linux 6.12.52
+
+https://lore.kernel.org/all/20251010131331.785281312@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ .../econet/patches-6.12/902-snand-mtk-bmt-support.patch     | 6 +++---
+ target/linux/generic/kernel-6.12                            | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/target/linux/econet/patches-6.12/902-snand-mtk-bmt-support.patch b/target/linux/econet/patches-6.12/902-snand-mtk-bmt-support.patch
+index f715652319..eb77fde066 100644
+--- a/target/linux/econet/patches-6.12/902-snand-mtk-bmt-support.patch
++++ b/target/linux/econet/patches-6.12/902-snand-mtk-bmt-support.patch
+@@ -8,7 +8,7 @@
+  
+  static int spinand_read_reg_op(struct spinand_device *spinand, u8 reg, u8 *val)
+  {
+-@@ -1530,6 +1531,7 @@ static int spinand_probe(struct spi_mem
++@@ -1574,6 +1575,7 @@ static int spinand_probe(struct spi_mem
+  	if (ret)
+  		return ret;
+  
+@@ -16,7 +16,7 @@
+  	ret = mtd_device_register(mtd, NULL, 0);
+  	if (ret)
+  		goto err_spinand_cleanup;
+-@@ -1537,6 +1539,7 @@ static int spinand_probe(struct spi_mem
++@@ -1581,6 +1583,7 @@ static int spinand_probe(struct spi_mem
+  	return 0;
+  
+  err_spinand_cleanup:
+@@ -24,7 +24,7 @@
+  	spinand_cleanup(spinand);
+  
+  	return ret;
+-@@ -1555,6 +1558,7 @@ static int spinand_remove(struct spi_mem
++@@ -1599,6 +1602,7 @@ static int spinand_remove(struct spi_mem
+  	if (ret)
+  		return ret;
+  
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 477c1b5d40..e644449731 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .51
+-LINUX_KERNEL_HASH-6.12.51 = 2d55ad149ca7d9ef82595c669430650030cbf9afbbeb42e5cd9b4ba3cc1a7221
++LINUX_VERSION-6.12 = .52
++LINUX_KERNEL_HASH-6.12.52 = b4850cf670a032c70f38b713a27d62046c5f747caf028c5f50b18f98606a9eb1
+-- 
+2.51.0
+
+
+From f0732ceef251ff997ed446cd05d7617251b8b99e Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 13 Oct 2025 19:33:26 +0000
+Subject: [PATCH 4/5] kernel: Linux 6.6.112
+
+https://lore.kernel.org/all/20251013144315.184275491@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ target/linux/generic/hack-6.6/253-ksmbd-config.patch          | 2 +-
+ target/linux/generic/kernel-6.6                               | 4 ++--
+ .../linux/generic/pending-6.6/203-kallsyms_uncompressed.patch | 2 +-
+ target/linux/generic/pending-6.6/920-mangle_bootargs.patch    | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/target/linux/generic/hack-6.6/253-ksmbd-config.patch b/target/linux/generic/hack-6.6/253-ksmbd-config.patch
+index d54b48895e..3d642e2b65 100644
+--- a/target/linux/generic/hack-6.6/253-ksmbd-config.patch
++++ b/target/linux/generic/hack-6.6/253-ksmbd-config.patch
+@@ -10,7 +10,7 @@ Subject: [PATCH] Kconfig: add tristate for OID and ASNI string
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -2002,7 +2002,7 @@ config PADATA
++@@ -2003,7 +2003,7 @@ config PADATA
+  	bool
+  
+  config ASN1
+diff --git a/target/linux/generic/kernel-6.6 b/target/linux/generic/kernel-6.6
+index 04111e0155..a489c9f12d 100644
+--- a/target/linux/generic/kernel-6.6
++++ b/target/linux/generic/kernel-6.6
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.6 = .111
+-LINUX_KERNEL_HASH-6.6.111 = 04c470e130d659ef05217ac695422c28d817d19daa50643fe28b945e6ab646c7
++LINUX_VERSION-6.6 = .112
++LINUX_KERNEL_HASH-6.6.112 = 6c7d92bf316a56e91de41cb60da1f63d94a4f8aafaef6a13055df0c291138a22
+diff --git a/target/linux/generic/pending-6.6/203-kallsyms_uncompressed.patch b/target/linux/generic/pending-6.6/203-kallsyms_uncompressed.patch
+index 94b22603d8..b067d57362 100644
+--- a/target/linux/generic/pending-6.6/203-kallsyms_uncompressed.patch
++++ b/target/linux/generic/pending-6.6/203-kallsyms_uncompressed.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -1460,6 +1460,17 @@ config SYSCTL_ARCH_UNALIGN_ALLOW
++@@ -1461,6 +1461,17 @@ config SYSCTL_ARCH_UNALIGN_ALLOW
+  	  the unaligned access emulation.
+  	  see arch/parisc/kernel/unaligned.c for reference
+  
+diff --git a/target/linux/generic/pending-6.6/920-mangle_bootargs.patch b/target/linux/generic/pending-6.6/920-mangle_bootargs.patch
+index 36e7c18324..8bf6183044 100644
+--- a/target/linux/generic/pending-6.6/920-mangle_bootargs.patch
++++ b/target/linux/generic/pending-6.6/920-mangle_bootargs.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Imre Kaloz <kaloz@openwrt.org>
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -1820,6 +1820,15 @@ config DEBUG_RSEQ
++@@ -1821,6 +1821,15 @@ config DEBUG_RSEQ
+  
+  	  If unsure, say N.
+  
+-- 
+2.51.0
+
+
+From f59b2f32f9a3f82b17dbca4dedc0a1c71ec30edf Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 13 Oct 2025 19:30:23 +0000
+Subject: [PATCH 5/5] kernel: Linux 6.12.53
+
+https://lore.kernel.org/all/20251013144326.116493600@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ ...ci_sync-Add-fallback-bd-address-prop.patch |   4 +-
+ ...5-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch |   6 +-
+ ...th-hci_sync-Fix-crash-on-NULL-parent.patch |   2 +-
+ ...mbd-add-max-ip-connections-parameter.patch | 119 ------------------
+ .../generic/hack-6.12/253-ksmbd-config.patch  |   2 +-
+ target/linux/generic/kernel-6.12              |   4 +-
+ .../203-kallsyms_uncompressed.patch           |   2 +-
+ .../pending-6.12/920-mangle_bootargs.patch    |   2 +-
+ ...rng-add-driver-for-MediaTek-TRNG-SMC.patch |   2 +-
+ ...-q6v5-Add-multipd-interrupts-support.patch |   6 +-
+ ...dd-support-for-rk3588-s-standalone-T.patch |   2 +-
+ ...chip-naneng-combo-add-rk3576-support.patch |   4 +-
+ ...ve-JH7100-Random-Number-Generator-dr.patch |   2 +-
+ 13 files changed, 19 insertions(+), 138 deletions(-)
+ delete mode 100644 target/linux/generic/backport-6.12/541-v6.18-ksmbd-add-max-ip-connections-parameter.patch
+
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0322-Bluetooth-hci_sync-Add-fallback-bd-address-prop.patch b/target/linux/bcm27xx/patches-6.12/950-0322-Bluetooth-hci_sync-Add-fallback-bd-address-prop.patch
+index d5cbb4e1cb..81e8d31c1b 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0322-Bluetooth-hci_sync-Add-fallback-bd-address-prop.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0322-Bluetooth-hci_sync-Add-fallback-bd-address-prop.patch
+@@ -20,7 +20,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ 
+ --- a/net/bluetooth/hci_sync.c
+ +++ b/net/bluetooth/hci_sync.c
+-@@ -4928,6 +4928,7 @@ static const struct {
++@@ -4930,6 +4930,7 @@ static const struct {
+   */
+  static int hci_dev_setup_sync(struct hci_dev *hdev)
+  {
+@@ -28,7 +28,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+  	int ret = 0;
+  	bool invalid_bdaddr;
+  	size_t i;
+-@@ -4956,7 +4957,8 @@ static int hci_dev_setup_sync(struct hci
++@@ -4958,7 +4959,8 @@ static int hci_dev_setup_sync(struct hci
+  			 test_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
+  	if (!ret) {
+  		if (test_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks) &&
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0335-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch b/target/linux/bcm27xx/patches-6.12/950-0335-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch
+index 2875648984..9abbcd0bae 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0335-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0335-usb-xhci-add-XHCI_VLI_HUB_TT_QUIRK.patch
+@@ -75,7 +75,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
+  	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
+ --- a/drivers/usb/host/xhci-ring.c
+ +++ b/drivers/usb/host/xhci-ring.c
+-@@ -3664,6 +3664,48 @@ static int xhci_align_td(struct xhci_hcd
++@@ -3661,6 +3661,48 @@ static int xhci_align_td(struct xhci_hcd
+  	return 1;
+  }
+  
+@@ -124,7 +124,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
+  /* This is very similar to what ehci-q.c qtd_fill() does */
+  int xhci_queue_bulk_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+  		struct urb *urb, int slot_id, unsigned int ep_index)
+-@@ -3818,6 +3860,8 @@ int xhci_queue_bulk_tx(struct xhci_hcd *
++@@ -3815,6 +3857,8 @@ int xhci_queue_bulk_tx(struct xhci_hcd *
+  	}
+  
+  	check_trb_math(urb, enqd_len);
+@@ -133,7 +133,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
+  	giveback_first_trb(xhci, slot_id, ep_index, urb->stream_id,
+  			start_cycle, start_trb);
+  	return 0;
+-@@ -3966,6 +4010,8 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *
++@@ -3963,6 +4007,8 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *
+  			/* Event on completion */
+  			field | TRB_IOC | TRB_TYPE(TRB_STATUS) | ep_ring->cycle_state);
+  
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0502-Bluetooth-hci_sync-Fix-crash-on-NULL-parent.patch b/target/linux/bcm27xx/patches-6.12/950-0502-Bluetooth-hci_sync-Fix-crash-on-NULL-parent.patch
+index 9293edef8d..cb98eb72fb 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0502-Bluetooth-hci_sync-Fix-crash-on-NULL-parent.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0502-Bluetooth-hci_sync-Fix-crash-on-NULL-parent.patch
+@@ -15,7 +15,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ 
+ --- a/net/bluetooth/hci_sync.c
+ +++ b/net/bluetooth/hci_sync.c
+-@@ -4928,7 +4928,8 @@ static const struct {
++@@ -4930,7 +4930,8 @@ static const struct {
+   */
+  static int hci_dev_setup_sync(struct hci_dev *hdev)
+  {
+diff --git a/target/linux/generic/backport-6.12/541-v6.18-ksmbd-add-max-ip-connections-parameter.patch b/target/linux/generic/backport-6.12/541-v6.18-ksmbd-add-max-ip-connections-parameter.patch
+deleted file mode 100644
+index 7520b2f2e3..0000000000
+--- a/target/linux/generic/backport-6.12/541-v6.18-ksmbd-add-max-ip-connections-parameter.patch
++++ /dev/null
+@@ -1,119 +0,0 @@
+-From d8b6dc9256762293048bf122fc11c4e612d0ef5d Mon Sep 17 00:00:00 2001
+-From: Namjae Jeon <linkinjeon@kernel.org>
+-Date: Wed, 1 Oct 2025 09:25:35 +0900
+-Subject: ksmbd: add max ip connections parameter
+-
+-This parameter set the maximum number of connections per ip address.
+-The default is 8.
+-
+-Cc: stable@vger.kernel.org
+-Fixes: c0d41112f1a5 ("ksmbd: extend the connection limiting mechanism to support IPv6")
+-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+-Signed-off-by: Steve French <stfrench@microsoft.com>
+----
+- fs/smb/server/ksmbd_netlink.h |  5 +++--
+- fs/smb/server/server.h        |  1 +
+- fs/smb/server/transport_ipc.c |  3 +++
+- fs/smb/server/transport_tcp.c | 27 ++++++++++++++++-----------
+- 4 files changed, 23 insertions(+), 13 deletions(-)
+-
+-(limited to 'fs/smb')
+-
+---- a/fs/smb/server/ksmbd_netlink.h
+-+++ b/fs/smb/server/ksmbd_netlink.h
+-@@ -112,10 +112,11 @@ struct ksmbd_startup_request {
+- 	__u32	smbd_max_io_size;	/* smbd read write size */
+- 	__u32	max_connections;	/* Number of maximum simultaneous connections */
+- 	__s8	bind_interfaces_only;
+--	__s8	reserved[503];		/* Reserved room */
+-+	__u32	max_ip_connections;	/* Number of maximum connection per ip address */
+-+	__s8	reserved[499];		/* Reserved room */
+- 	__u32	ifc_list_sz;		/* interfaces list size */
+- 	__s8	____payload[];
+--};
+-+} __packed;
+- 
+- #define KSMBD_STARTUP_CONFIG_INTERFACES(s)	((s)->____payload)
+- 
+---- a/fs/smb/server/server.h
+-+++ b/fs/smb/server/server.h
+-@@ -43,6 +43,7 @@ struct ksmbd_server_config {
+- 	unsigned int		auth_mechs;
+- 	unsigned int		max_connections;
+- 	unsigned int		max_inflight_req;
+-+	unsigned int		max_ip_connections;
+- 
+- 	char			*conf[SERVER_CONF_WORK_GROUP + 1];
+- 	struct task_struct	*dh_task;
+---- a/fs/smb/server/transport_ipc.c
+-+++ b/fs/smb/server/transport_ipc.c
+-@@ -335,6 +335,9 @@ static int ipc_server_config_on_startup(
+- 	if (req->max_connections)
+- 		server_conf.max_connections = req->max_connections;
+- 
+-+	if (req->max_ip_connections)
+-+		server_conf.max_ip_connections = req->max_ip_connections;
+-+
+- 	ret = ksmbd_set_netbios_name(req->netbios_name);
+- 	ret |= ksmbd_set_server_string(req->server_string);
+- 	ret |= ksmbd_set_work_group(req->work_group);
+---- a/fs/smb/server/transport_tcp.c
+-+++ b/fs/smb/server/transport_tcp.c
+-@@ -240,6 +240,7 @@ static int ksmbd_kthread_fn(void *p)
+- 	struct interface *iface = (struct interface *)p;
+- 	struct ksmbd_conn *conn;
+- 	int ret;
+-+	unsigned int max_ip_conns;
+- 
+- 	while (!kthread_should_stop()) {
+- 		mutex_lock(&iface->sock_release_lock);
+-@@ -257,34 +258,38 @@ static int ksmbd_kthread_fn(void *p)
+- 			continue;
+- 		}
+- 
+-+		if (!server_conf.max_ip_connections)
+-+			goto skip_max_ip_conns_limit;
+-+
+- 		/*
+- 		 * Limits repeated connections from clients with the same IP.
+- 		 */
+-+		max_ip_conns = 0;
+- 		down_read(&conn_list_lock);
+--		list_for_each_entry(conn, &conn_list, conns_list)
+-+		list_for_each_entry(conn, &conn_list, conns_list) {
+- #if IS_ENABLED(CONFIG_IPV6)
+- 			if (client_sk->sk->sk_family == AF_INET6) {
+- 				if (memcmp(&client_sk->sk->sk_v6_daddr,
+--					   &conn->inet6_addr, 16) == 0) {
+--					ret = -EAGAIN;
+--					break;
+--				}
+-+					   &conn->inet6_addr, 16) == 0)
+-+					max_ip_conns++;
+- 			} else if (inet_sk(client_sk->sk)->inet_daddr ==
+--				 conn->inet_addr) {
+--				ret = -EAGAIN;
+--				break;
+--			}
+-+				 conn->inet_addr)
+-+				max_ip_conns++;
+- #else
+- 			if (inet_sk(client_sk->sk)->inet_daddr ==
+--			    conn->inet_addr) {
+-+			    conn->inet_addr)
+-+				max_ip_conns++;
+-+#endif
+-+			if (server_conf.max_ip_connections <= max_ip_conns) {
+- 				ret = -EAGAIN;
+- 				break;
+- 			}
+--#endif
+-+		}
+- 		up_read(&conn_list_lock);
+- 		if (ret == -EAGAIN)
+- 			continue;
+- 
+-+skip_max_ip_conns_limit:
+- 		if (server_conf.max_connections &&
+- 		    atomic_inc_return(&active_num_conn) >= server_conf.max_connections) {
+- 			pr_info_ratelimited("Limit the maximum number of connections(%u)\n",
+diff --git a/target/linux/generic/hack-6.12/253-ksmbd-config.patch b/target/linux/generic/hack-6.12/253-ksmbd-config.patch
+index d5474d9799..d9587fbe84 100644
+--- a/target/linux/generic/hack-6.12/253-ksmbd-config.patch
++++ b/target/linux/generic/hack-6.12/253-ksmbd-config.patch
+@@ -10,7 +10,7 @@ Subject: [PATCH] Kconfig: add tristate for OID and ASNI string
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -2062,7 +2062,7 @@ config PADATA
++@@ -2063,7 +2063,7 @@ config PADATA
+  	bool
+  
+  config ASN1
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index e644449731..025f59067d 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .52
+-LINUX_KERNEL_HASH-6.12.52 = b4850cf670a032c70f38b713a27d62046c5f747caf028c5f50b18f98606a9eb1
++LINUX_VERSION-6.12 = .53
++LINUX_KERNEL_HASH-6.12.53 = 663507accae673afcf4e210b4ae8d4352e61d926202e5da3f04bf71ca1d2c0b5
+diff --git a/target/linux/generic/pending-6.12/203-kallsyms_uncompressed.patch b/target/linux/generic/pending-6.12/203-kallsyms_uncompressed.patch
+index 9855ce03c8..0efafb4e83 100644
+--- a/target/linux/generic/pending-6.12/203-kallsyms_uncompressed.patch
++++ b/target/linux/generic/pending-6.12/203-kallsyms_uncompressed.patch
+@@ -14,7 +14,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -1533,6 +1533,17 @@ config SYSCTL_ARCH_UNALIGN_ALLOW
++@@ -1534,6 +1534,17 @@ config SYSCTL_ARCH_UNALIGN_ALLOW
+  	  the unaligned access emulation.
+  	  see arch/parisc/kernel/unaligned.c for reference
+  
+diff --git a/target/linux/generic/pending-6.12/920-mangle_bootargs.patch b/target/linux/generic/pending-6.12/920-mangle_bootargs.patch
+index 04f5be3f74..d3b92ba65c 100644
+--- a/target/linux/generic/pending-6.12/920-mangle_bootargs.patch
++++ b/target/linux/generic/pending-6.12/920-mangle_bootargs.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Imre Kaloz <kaloz@openwrt.org>
+ 
+ --- a/init/Kconfig
+ +++ b/init/Kconfig
+-@@ -1887,6 +1887,15 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
++@@ -1888,6 +1888,15 @@ config ARCH_HAS_MEMBARRIER_CALLBACKS
+  config ARCH_HAS_MEMBARRIER_SYNC_CORE
+  	bool
+  
+diff --git a/target/linux/mediatek/patches-6.12/320-hwrng-add-driver-for-MediaTek-TRNG-SMC.patch b/target/linux/mediatek/patches-6.12/320-hwrng-add-driver-for-MediaTek-TRNG-SMC.patch
+index e738883800..3d7ca7c3e2 100644
+--- a/target/linux/mediatek/patches-6.12/320-hwrng-add-driver-for-MediaTek-TRNG-SMC.patch
++++ b/target/linux/mediatek/patches-6.12/320-hwrng-add-driver-for-MediaTek-TRNG-SMC.patch
+@@ -18,7 +18,7 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+ 
+ --- a/drivers/char/hw_random/Kconfig
+ +++ b/drivers/char/hw_random/Kconfig
+-@@ -451,6 +451,23 @@ config HW_RANDOM_MTK
++@@ -452,6 +452,23 @@ config HW_RANDOM_MTK
+  
+  	  If unsure, say Y.
+  
+diff --git a/target/linux/qualcommax/patches-6.12/0804-remoteproc-qcom-q6v5-Add-multipd-interrupts-support.patch b/target/linux/qualcommax/patches-6.12/0804-remoteproc-qcom-q6v5-Add-multipd-interrupts-support.patch
+index 4e955435b2..0238ba828a 100644
+--- a/target/linux/qualcommax/patches-6.12/0804-remoteproc-qcom-q6v5-Add-multipd-interrupts-support.patch
++++ b/target/linux/qualcommax/patches-6.12/0804-remoteproc-qcom-q6v5-Add-multipd-interrupts-support.patch
+@@ -47,7 +47,7 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
+  
+  /**
+   * qcom_q6v5_wait_for_start() - wait for remote processor start signal
+-@@ -177,7 +179,17 @@ static irqreturn_t q6v5_handover_interru
++@@ -174,7 +176,17 @@ static irqreturn_t q6v5_handover_interru
+  	return IRQ_HANDLED;
+  }
+  
+@@ -66,7 +66,7 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
+  {
+  	struct qcom_q6v5 *q6v5 = data;
+  
+-@@ -185,6 +197,7 @@ static irqreturn_t q6v5_stop_interrupt(i
++@@ -182,6 +194,7 @@ static irqreturn_t q6v5_stop_interrupt(i
+  
+  	return IRQ_HANDLED;
+  }
+@@ -74,7 +74,7 @@ Signed-off-by: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
+  
+  /**
+   * qcom_q6v5_request_stop() - request the remote processor to stop
+-@@ -215,6 +228,28 @@ int qcom_q6v5_request_stop(struct qcom_q
++@@ -212,6 +225,28 @@ int qcom_q6v5_request_stop(struct qcom_q
+  EXPORT_SYMBOL_GPL(qcom_q6v5_request_stop);
+  
+  /**
+diff --git a/target/linux/rockchip/patches-6.12/031-06-v6.15-hwrng-rockchip-add-support-for-rk3588-s-standalone-T.patch b/target/linux/rockchip/patches-6.12/031-06-v6.15-hwrng-rockchip-add-support-for-rk3588-s-standalone-T.patch
+index 9ae621a54a..1ad406cd6f 100644
+--- a/target/linux/rockchip/patches-6.12/031-06-v6.15-hwrng-rockchip-add-support-for-rk3588-s-standalone-T.patch
++++ b/target/linux/rockchip/patches-6.12/031-06-v6.15-hwrng-rockchip-add-support-for-rk3588-s-standalone-T.patch
+@@ -52,7 +52,7 @@ Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+ 
+ --- a/drivers/char/hw_random/Kconfig
+ +++ b/drivers/char/hw_random/Kconfig
+-@@ -580,7 +580,8 @@ config HW_RANDOM_ROCKCHIP
++@@ -581,7 +581,8 @@ config HW_RANDOM_ROCKCHIP
+  	default HW_RANDOM
+  	help
+  	  This driver provides kernel-side support for the True Random Number
+diff --git a/target/linux/rockchip/patches-6.12/036-05-v6.14-phy-rockchip-naneng-combo-add-rk3576-support.patch b/target/linux/rockchip/patches-6.12/036-05-v6.14-phy-rockchip-naneng-combo-add-rk3576-support.patch
+index 4f466c42d5..c9c3f3cbb5 100644
+--- a/target/linux/rockchip/patches-6.12/036-05-v6.14-phy-rockchip-naneng-combo-add-rk3576-support.patch
++++ b/target/linux/rockchip/patches-6.12/036-05-v6.14-phy-rockchip-naneng-combo-add-rk3576-support.patch
+@@ -75,7 +75,7 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
+  	struct combphy_reg pipe_clk_25m;
+  	struct combphy_reg pipe_clk_100m;
+  	struct combphy_reg pipe_phymode_sel;
+-@@ -587,6 +602,266 @@ static const struct rockchip_combphy_cfg
++@@ -599,6 +614,266 @@ static const struct rockchip_combphy_cfg
+  	.combphy_cfg	= rk3568_combphy_cfg,
+  };
+  
+@@ -342,7 +342,7 @@ Signed-off-by: Vinod Koul <vkoul@kernel.org>
+  static int rk3588_combphy_cfg(struct rockchip_combphy_priv *priv)
+  {
+  	const struct rockchip_combphy_grfcfg *cfg = priv->cfg->grfcfg;
+-@@ -779,6 +1054,10 @@ static const struct of_device_id rockchi
++@@ -791,6 +1066,10 @@ static const struct of_device_id rockchi
+  		.data = &rk3568_combphy_cfgs,
+  	},
+  	{
+diff --git a/target/linux/starfive/patches-6.12/1015-hwrng-Add-StarFive-JH7100-Random-Number-Generator-dr.patch b/target/linux/starfive/patches-6.12/1015-hwrng-Add-StarFive-JH7100-Random-Number-Generator-dr.patch
+index 1b81a0148e..549f7f8646 100644
+--- a/target/linux/starfive/patches-6.12/1015-hwrng-Add-StarFive-JH7100-Random-Number-Generator-dr.patch
++++ b/target/linux/starfive/patches-6.12/1015-hwrng-Add-StarFive-JH7100-Random-Number-Generator-dr.patch
+@@ -16,7 +16,7 @@ Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+ 
+ --- a/drivers/char/hw_random/Kconfig
+ +++ b/drivers/char/hw_random/Kconfig
+-@@ -322,6 +322,19 @@ config HW_RANDOM_POWERNV
++@@ -323,6 +323,19 @@ config HW_RANDOM_POWERNV
+  
+  	  If unsure, say Y.
+  
+-- 
+2.51.0
+
