@@ -1,0 +1,1208 @@
+From 4ba2f372f574636eb13ca5c99db8ad0ed69b30cf Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Thu, 26 Jun 2025 11:30:50 -0400
+Subject: [PATCH 1/3] kernel: rc sources
+
+---
+ scripts/projectsmirrors.json | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/projectsmirrors.json b/scripts/projectsmirrors.json
+index 9763f301e8..ee79e37064 100644
+--- a/scripts/projectsmirrors.json
++++ b/scripts/projectsmirrors.json
+@@ -58,6 +58,8 @@
+ 		"http://ftp.nara.wide.ad.jp/pub/X11/GNOME/sources"
+ 	],
+ 	"@OPENWRT": [
++		"https://github.com/mj22226/linux/releases/download/v6.6/",
++		"https://github.com/mj22226/linux/releases/download/v6.12/",
+ 		"https://sources.cdn.openwrt.org",
+ 		"https://sources.openwrt.org",
+ 		"https://mirror2.openwrt.org/sources"
+-- 
+2.51.0
+
+
+From b7676be840d872d297e9c8825249bf57be1a4952 Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 27 Oct 2025 22:14:32 +0000
+Subject: [PATCH 2/3] kernel: Linux 6.6.115
+
+https://lore.kernel.org/all/20251027183438.817309828@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ .../generic/hack-6.6/780-usb-net-MeigLink_modem_support.patch | 4 ++--
+ target/linux/generic/kernel-6.6                               | 4 ++--
+ .../710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch   | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/target/linux/generic/hack-6.6/780-usb-net-MeigLink_modem_support.patch b/target/linux/generic/hack-6.6/780-usb-net-MeigLink_modem_support.patch
+index e0d5789947..9d389dd3fc 100644
+--- a/target/linux/generic/hack-6.6/780-usb-net-MeigLink_modem_support.patch
++++ b/target/linux/generic/hack-6.6/780-usb-net-MeigLink_modem_support.patch
+@@ -44,7 +44,7 @@ Subject: [PATCH] net/usb/qmi_wwan: add MeigLink modem support
+  
+  #define QUECTEL_VENDOR_ID			0x2c7c
+  /* These Quectel products use Quectel's vendor ID */
+-@@ -1154,6 +1159,11 @@ static const struct usb_device_id option
++@@ -1156,6 +1161,11 @@ static const struct usb_device_id option
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x0023)}, /* ONYX 3G device */
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x9000), /* SIMCom SIM5218 */
+  	  .driver_info = NCTRL(0) | NCTRL(1) | NCTRL(2) | NCTRL(3) | RSVD(4) },
+@@ -56,7 +56,7 @@ Subject: [PATCH] net/usb/qmi_wwan: add MeigLink modem support
+  	/* Quectel products using Qualcomm vendor ID */
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, QUECTEL_PRODUCT_UC15)},
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, QUECTEL_PRODUCT_UC20),
+-@@ -1195,6 +1205,11 @@ static const struct usb_device_id option
++@@ -1197,6 +1207,11 @@ static const struct usb_device_id option
+  	  .driver_info = ZLP },
+  	{ USB_DEVICE(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_BG96),
+  	  .driver_info = RSVD(4) },
+diff --git a/target/linux/generic/kernel-6.6 b/target/linux/generic/kernel-6.6
+index fac976bfec..706c50ef7b 100644
+--- a/target/linux/generic/kernel-6.6
++++ b/target/linux/generic/kernel-6.6
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.6 = .114
+-LINUX_KERNEL_HASH-6.6.114 = ca4175a03ce2943ae192d77ad91e37ee292f1f1bb7b2954b062b0ef7eb0cb97c
++LINUX_VERSION-6.6 = .115
++LINUX_KERNEL_HASH-6.6.115 = 0a98c05e8d0f6b49fad71b8d779410a0811ea5ae17d81744fe30718633fd9047
+diff --git a/target/linux/generic/pending-6.6/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch b/target/linux/generic/pending-6.6/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
+index 5916b5eac2..63f827d453 100644
+--- a/target/linux/generic/pending-6.6/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
++++ b/target/linux/generic/pending-6.6/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
+@@ -161,7 +161,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  
+  struct rtnl_link {
+  	rtnl_doit_func		doit;
+-@@ -4981,7 +4981,9 @@ int ndo_dflt_bridge_getlink(struct sk_bu
++@@ -4978,7 +4978,9 @@ int ndo_dflt_bridge_getlink(struct sk_bu
+  	    brport_nla_put_flag(skb, flags, mask,
+  				IFLA_BRPORT_MCAST_FLOOD, BR_MCAST_FLOOD) ||
+  	    brport_nla_put_flag(skb, flags, mask,
+-- 
+2.51.0
+
+
+From 2b869587a928f3d6a4e4565556754eacfb8f5788 Mon Sep 17 00:00:00 2001
+From: Marty Jones <mj8263788@gmail.com>
+Date: Mon, 27 Oct 2025 22:10:59 +0000
+Subject: [PATCH 3/3] kernel: Linux 6.12.56
+
+https://lore.kernel.org/all/20251027183453.919157109@linuxfoundation.org
+Signed-off-by: Marty Jones <mj8263788@gmail.com>
+---
+ ...t-keep-tx-rx-dma-buffer-always-mappe.patch | 435 ------------------
+ ...turn-an-error-for-continuous-mode-di.patch |  33 --
+ ...emove-unnecessary-restriction-length.patch |   2 +-
+ ...d-support-of-dual-quad-wires-spi-mod.patch | 209 ---------
+ ...move-unnecessary-switch-to-non-dma-m.patch |   2 +-
+ ...itch-back-to-non-dma-mode-in-the-cas.patch |  54 ---
+ ...x-reading-writing-of-flashes-with-mo.patch | 102 ----
+ ...hwmon-sht3x-Add-DT-compatible-string.patch |   2 +-
+ ...7xx-Read-modem-line-state-at-startup.patch |   2 +-
+ ...is7xx-Don-t-spin-if-no-data-received.patch |   2 +-
+ ...om-Add-display-pipeline-support-to-B.patch |   6 +-
+ ...om-Fixup-HVS-address-for-downstream-.patch |   2 +-
+ ...-announce-support-for-SER_RS485_RTS_.patch |   2 +-
+ ...4-arm64-dts-Prepare-for-size-cells-2.patch |   2 +-
+ ...s-broadcom-bcm2712-Add-PCIe-DT-nodes.patch |   2 +-
+ .../780-usb-net-MeigLink_modem_support.patch  |   4 +-
+ target/linux/generic/kernel-6.12              |   4 +-
+ ...d-knob-for-filtering-rx-tx-BPDU-pack.patch |   2 +-
+ ...50-add-reset-operation-in-runtime-PM.patch |   4 +-
+ ...dd-starfive-jh7100-hsuart-compatible.patch |   2 +-
+ 20 files changed, 20 insertions(+), 853 deletions(-)
+ delete mode 100644 target/linux/airoha/patches-6.12/028-v6.13-spi-airoha-do-not-keep-tx-rx-dma-buffer-always-mappe.patch
+ delete mode 100644 target/linux/airoha/patches-6.12/029-01-spi-airoha-return-an-error-for-continuous-mode-di.patch
+ delete mode 100644 target/linux/airoha/patches-6.12/029-03-spi-airoha-add-support-of-dual-quad-wires-spi-mod.patch
+ delete mode 100644 target/linux/airoha/patches-6.12/029-05-spi-airoha-switch-back-to-non-dma-mode-in-the-cas.patch
+ delete mode 100644 target/linux/airoha/patches-6.12/029-06-spi-airoha-fix-reading-writing-of-flashes-with-mo.patch
+
+diff --git a/target/linux/airoha/patches-6.12/028-v6.13-spi-airoha-do-not-keep-tx-rx-dma-buffer-always-mappe.patch b/target/linux/airoha/patches-6.12/028-v6.13-spi-airoha-do-not-keep-tx-rx-dma-buffer-always-mappe.patch
+deleted file mode 100644
+index 71e920cd0f..0000000000
+--- a/target/linux/airoha/patches-6.12/028-v6.13-spi-airoha-do-not-keep-tx-rx-dma-buffer-always-mappe.patch
++++ /dev/null
+@@ -1,435 +0,0 @@
+-From 7a4b3ebf1d60349587fee21872536e7bd6a4cf39 Mon Sep 17 00:00:00 2001
+-From: Lorenzo Bianconi <lorenzo@kernel.org>
+-Date: Sun, 22 Sep 2024 19:38:30 +0200
+-Subject: [PATCH] spi: airoha: do not keep {tx,rx} dma buffer always mapped
+-
+-DMA map txrx_buf on demand in airoha_snand_dirmap_read and
+-airoha_snand_dirmap_write routines and do not keep it always mapped.
+-This patch is not fixing any bug or introducing any functional change
+-to the driver, it just simplifies the code and improve code readability
+-without introducing any performance degradation according to the results
+-obtained from the mtd_speedtest kernel module test.
+-
+-root@OpenWrt:# insmod mtd_test.ko
+-root@OpenWrt:# insmod mtd_speedtest.ko dev=5
+-[   49.849869] =================================================
+-[   49.855659] mtd_speedtest: MTD device: 5
+-[   49.859583] mtd_speedtest: MTD device size 8388608, eraseblock size 131072, page size 2048, count of eraseblocks 64, pages per eraseblock 64, OOB size 128
+-[   49.874622] mtd_test: scanning for bad eraseblocks
+-[   49.879433] mtd_test: scanned 64 eraseblocks, 0 are bad
+-[   50.106372] mtd_speedtest: testing eraseblock write speed
+-[   53.083380] mtd_speedtest: eraseblock write speed is 2756 KiB/s
+-[   53.089322] mtd_speedtest: testing eraseblock read speed
+-[   54.143360] mtd_speedtest: eraseblock read speed is 7811 KiB/s
+-[   54.370365] mtd_speedtest: testing page write speed
+-[   57.349480] mtd_speedtest: page write speed is 2754 KiB/s
+-[   57.354895] mtd_speedtest: testing page read speed
+-[   58.410431] mtd_speedtest: page read speed is 7796 KiB/s
+-[   58.636805] mtd_speedtest: testing 2 page write speed
+-[   61.612427] mtd_speedtest: 2 page write speed is 2757 KiB/s
+-[   61.618021] mtd_speedtest: testing 2 page read speed
+-[   62.672653] mtd_speedtest: 2 page read speed is 7804 KiB/s
+-[   62.678159] mtd_speedtest: Testing erase speed
+-[   62.903617] mtd_speedtest: erase speed is 37063 KiB/s
+-[   62.908678] mtd_speedtest: Testing 2x multi-block erase speed
+-[   63.134083] mtd_speedtest: 2x multi-block erase speed is 37292 KiB/s
+-[   63.140442] mtd_speedtest: Testing 4x multi-block erase speed
+-[   63.364262] mtd_speedtest: 4x multi-block erase speed is 37566 KiB/s
+-[   63.370632] mtd_speedtest: Testing 8x multi-block erase speed
+-[   63.595740] mtd_speedtest: 8x multi-block erase speed is 37344 KiB/s
+-[   63.602089] mtd_speedtest: Testing 16x multi-block erase speed
+-[   63.827426] mtd_speedtest: 16x multi-block erase speed is 37320 KiB/s
+-[   63.833860] mtd_speedtest: Testing 32x multi-block erase speed
+-[   64.059389] mtd_speedtest: 32x multi-block erase speed is 37288 KiB/s
+-[   64.065833] mtd_speedtest: Testing 64x multi-block erase speed
+-[   64.290609] mtd_speedtest: 64x multi-block erase speed is 37415 KiB/s
+-[   64.297063] mtd_speedtest: finished
+-[   64.300555] =================================================
+-
+-Tested-by: Christian Marangi <ansuelsmth@gmail.com>
+-Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+-Link: https://patch.msgid.link/20240922-airoha-spi-fixes-v3-1-f958802b3d68@kernel.org
+-Signed-off-by: Mark Brown <broonie@kernel.org>
+----
+- drivers/spi/spi-airoha-snfi.c | 154 ++++++++++++++++------------------
+- 1 file changed, 71 insertions(+), 83 deletions(-)
+-
+---- a/drivers/spi/spi-airoha-snfi.c
+-+++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -206,13 +206,6 @@ enum airoha_snand_cs {
+- 	SPI_CHIP_SEL_LOW,
+- };
+- 
+--struct airoha_snand_dev {
+--	size_t buf_len;
+--
+--	u8 *txrx_buf;
+--	dma_addr_t dma_addr;
+--};
+--
+- struct airoha_snand_ctrl {
+- 	struct device *dev;
+- 	struct regmap *regmap_ctrl;
+-@@ -617,9 +610,9 @@ static bool airoha_snand_supports_op(str
+- 
+- static int airoha_snand_dirmap_create(struct spi_mem_dirmap_desc *desc)
+- {
+--	struct airoha_snand_dev *as_dev = spi_get_ctldata(desc->mem->spi);
+-+	u8 *txrx_buf = spi_get_ctldata(desc->mem->spi);
+- 
+--	if (!as_dev->txrx_buf)
+-+	if (!txrx_buf)
+- 		return -EINVAL;
+- 
+- 	if (desc->info.offset + desc->info.length > U32_MAX)
+-@@ -634,10 +627,11 @@ static int airoha_snand_dirmap_create(st
+- static ssize_t airoha_snand_dirmap_read(struct spi_mem_dirmap_desc *desc,
+- 					u64 offs, size_t len, void *buf)
+- {
+--	struct spi_device *spi = desc->mem->spi;
+--	struct airoha_snand_dev *as_dev = spi_get_ctldata(spi);
+- 	struct spi_mem_op *op = &desc->info.op_tmpl;
+-+	struct spi_device *spi = desc->mem->spi;
+- 	struct airoha_snand_ctrl *as_ctrl;
+-+	u8 *txrx_buf = spi_get_ctldata(spi);
+-+	dma_addr_t dma_addr;
+- 	u32 val, rd_mode;
+- 	int err;
+- 
+-@@ -662,14 +656,17 @@ static ssize_t airoha_snand_dirmap_read(
+- 	if (err)
+- 		return err;
+- 
+--	dma_sync_single_for_device(as_ctrl->dev, as_dev->dma_addr,
+--				   as_dev->buf_len, DMA_BIDIRECTIONAL);
+-+	dma_addr = dma_map_single(as_ctrl->dev, txrx_buf, SPI_NAND_CACHE_SIZE,
+-+				  DMA_FROM_DEVICE);
+-+	err = dma_mapping_error(as_ctrl->dev, dma_addr);
+-+	if (err)
+-+		return err;
+- 
+- 	/* set dma addr */
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_STRADDR,
+--			   as_dev->dma_addr);
+-+			   dma_addr);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* set cust sec size */
+- 	val = as_ctrl->nfi_cfg.sec_size * as_ctrl->nfi_cfg.sec_num;
+-@@ -678,58 +675,58 @@ static ssize_t airoha_snand_dirmap_read(
+- 				 REG_SPI_NFI_SNF_MISC_CTL2,
+- 				 SPI_NFI_READ_DATA_BYTE_NUM, val);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* set read command */
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_RD_CTL2,
+- 			   op->cmd.opcode);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* set read mode */
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_SNF_MISC_CTL,
+- 			   FIELD_PREP(SPI_NFI_DATA_READ_WR_MODE, rd_mode));
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* set read addr */
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_RD_CTL3, 0x0);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* set nfi read */
+- 	err = regmap_update_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CNFG,
+- 				 SPI_NFI_OPMODE,
+- 				 FIELD_PREP(SPI_NFI_OPMODE, 6));
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_set_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CNFG,
+- 			      SPI_NFI_READ_MODE | SPI_NFI_DMA_MODE);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_CMD, 0x0);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* trigger dma start read */
+- 	err = regmap_clear_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CON,
+- 				SPI_NFI_RD_TRIG);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_set_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CON,
+- 			      SPI_NFI_RD_TRIG);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_read_poll_timeout(as_ctrl->regmap_nfi,
+- 				       REG_SPI_NFI_SNF_STA_CTL1, val,
+- 				       (val & SPI_NFI_READ_FROM_CACHE_DONE),
+- 				       0, 1 * USEC_PER_SEC);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/*
+- 	 * SPI_NFI_READ_FROM_CACHE_DONE bit must be written at the end
+-@@ -739,35 +736,41 @@ static ssize_t airoha_snand_dirmap_read(
+- 				SPI_NFI_READ_FROM_CACHE_DONE,
+- 				SPI_NFI_READ_FROM_CACHE_DONE);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_read_poll_timeout(as_ctrl->regmap_nfi, REG_SPI_NFI_INTR,
+- 				       val, (val & SPI_NFI_AHB_DONE), 0,
+- 				       1 * USEC_PER_SEC);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/* DMA read need delay for data ready from controller to DRAM */
+- 	udelay(1);
+- 
+--	dma_sync_single_for_cpu(as_ctrl->dev, as_dev->dma_addr,
+--				as_dev->buf_len, DMA_BIDIRECTIONAL);
+-+	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+-+			 DMA_FROM_DEVICE);
+- 	err = airoha_snand_set_mode(as_ctrl, SPI_MODE_MANUAL);
+- 	if (err < 0)
+- 		return err;
+- 
+--	memcpy(buf, as_dev->txrx_buf + offs, len);
+-+	memcpy(buf, txrx_buf + offs, len);
+- 
+- 	return len;
+-+
+-+error_dma_unmap:
+-+	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+-+			 DMA_FROM_DEVICE);
+-+	return err;
+- }
+- 
+- static ssize_t airoha_snand_dirmap_write(struct spi_mem_dirmap_desc *desc,
+- 					 u64 offs, size_t len, const void *buf)
+- {
+--	struct spi_device *spi = desc->mem->spi;
+--	struct airoha_snand_dev *as_dev = spi_get_ctldata(spi);
+- 	struct spi_mem_op *op = &desc->info.op_tmpl;
+-+	struct spi_device *spi = desc->mem->spi;
+-+	u8 *txrx_buf = spi_get_ctldata(spi);
+- 	struct airoha_snand_ctrl *as_ctrl;
+-+	dma_addr_t dma_addr;
+- 	u32 wr_mode, val;
+- 	int err;
+- 
+-@@ -776,19 +779,20 @@ static ssize_t airoha_snand_dirmap_write
+- 	if (err < 0)
+- 		return err;
+- 
+--	dma_sync_single_for_cpu(as_ctrl->dev, as_dev->dma_addr,
+--				as_dev->buf_len, DMA_BIDIRECTIONAL);
+--	memcpy(as_dev->txrx_buf + offs, buf, len);
+--	dma_sync_single_for_device(as_ctrl->dev, as_dev->dma_addr,
+--				   as_dev->buf_len, DMA_BIDIRECTIONAL);
+-+	memcpy(txrx_buf + offs, buf, len);
+-+	dma_addr = dma_map_single(as_ctrl->dev, txrx_buf, SPI_NAND_CACHE_SIZE,
+-+				  DMA_TO_DEVICE);
+-+	err = dma_mapping_error(as_ctrl->dev, dma_addr);
+-+	if (err)
+-+		return err;
+- 
+- 	err = airoha_snand_set_mode(as_ctrl, SPI_MODE_DMA);
+- 	if (err < 0)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = airoha_snand_nfi_config(as_ctrl);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	if (op->cmd.opcode == SPI_NAND_OP_PROGRAM_LOAD_QUAD ||
+- 	    op->cmd.opcode == SPI_NAND_OP_PROGRAM_LOAD_RAMDON_QUAD)
+-@@ -797,9 +801,9 @@ static ssize_t airoha_snand_dirmap_write
+- 		wr_mode = 0;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_STRADDR,
+--			   as_dev->dma_addr);
+-+			   dma_addr);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	val = FIELD_PREP(SPI_NFI_PROG_LOAD_BYTE_NUM,
+- 			 as_ctrl->nfi_cfg.sec_size * as_ctrl->nfi_cfg.sec_num);
+-@@ -807,65 +811,65 @@ static ssize_t airoha_snand_dirmap_write
+- 				 REG_SPI_NFI_SNF_MISC_CTL2,
+- 				 SPI_NFI_PROG_LOAD_BYTE_NUM, val);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_PG_CTL1,
+- 			   FIELD_PREP(SPI_NFI_PG_LOAD_CMD,
+- 				      op->cmd.opcode));
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_SNF_MISC_CTL,
+- 			   FIELD_PREP(SPI_NFI_DATA_READ_WR_MODE, wr_mode));
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_PG_CTL2, 0x0);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_clear_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CNFG,
+- 				SPI_NFI_READ_MODE);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_update_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CNFG,
+- 				 SPI_NFI_OPMODE,
+- 				 FIELD_PREP(SPI_NFI_OPMODE, 3));
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_set_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CNFG,
+- 			      SPI_NFI_DMA_MODE);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_CMD, 0x80);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_clear_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CON,
+- 				SPI_NFI_WR_TRIG);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_set_bits(as_ctrl->regmap_nfi, REG_SPI_NFI_CON,
+- 			      SPI_NFI_WR_TRIG);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_read_poll_timeout(as_ctrl->regmap_nfi, REG_SPI_NFI_INTR,
+- 				       val, (val & SPI_NFI_AHB_DONE), 0,
+- 				       1 * USEC_PER_SEC);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	err = regmap_read_poll_timeout(as_ctrl->regmap_nfi,
+- 				       REG_SPI_NFI_SNF_STA_CTL1, val,
+- 				       (val & SPI_NFI_LOAD_TO_CACHE_DONE),
+- 				       0, 1 * USEC_PER_SEC);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+- 	/*
+- 	 * SPI_NFI_LOAD_TO_CACHE_DONE bit must be written at the end
+-@@ -875,13 +879,20 @@ static ssize_t airoha_snand_dirmap_write
+- 				SPI_NFI_LOAD_TO_CACHE_DONE,
+- 				SPI_NFI_LOAD_TO_CACHE_DONE);
+- 	if (err)
+--		return err;
+-+		goto error_dma_unmap;
+- 
+-+	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+-+			 DMA_TO_DEVICE);
+- 	err = airoha_snand_set_mode(as_ctrl, SPI_MODE_MANUAL);
+- 	if (err < 0)
+- 		return err;
+- 
+- 	return len;
+-+
+-+error_dma_unmap:
+-+	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+-+			 DMA_TO_DEVICE);
+-+	return err;
+- }
+- 
+- static int airoha_snand_exec_op(struct spi_mem *mem,
+-@@ -956,42 +967,20 @@ static const struct spi_controller_mem_o
+- static int airoha_snand_setup(struct spi_device *spi)
+- {
+- 	struct airoha_snand_ctrl *as_ctrl;
+--	struct airoha_snand_dev *as_dev;
+--
+--	as_ctrl = spi_controller_get_devdata(spi->controller);
+--
+--	as_dev = devm_kzalloc(as_ctrl->dev, sizeof(*as_dev), GFP_KERNEL);
+--	if (!as_dev)
+--		return -ENOMEM;
+-+	u8 *txrx_buf;
+- 
+- 	/* prepare device buffer */
+--	as_dev->buf_len = SPI_NAND_CACHE_SIZE;
+--	as_dev->txrx_buf = devm_kzalloc(as_ctrl->dev, as_dev->buf_len,
+--					GFP_KERNEL);
+--	if (!as_dev->txrx_buf)
+--		return -ENOMEM;
+--
+--	as_dev->dma_addr = dma_map_single(as_ctrl->dev, as_dev->txrx_buf,
+--					  as_dev->buf_len, DMA_BIDIRECTIONAL);
+--	if (dma_mapping_error(as_ctrl->dev, as_dev->dma_addr))
+-+	as_ctrl = spi_controller_get_devdata(spi->controller);
+-+	txrx_buf = devm_kzalloc(as_ctrl->dev, SPI_NAND_CACHE_SIZE,
+-+				GFP_KERNEL);
+-+	if (!txrx_buf)
+- 		return -ENOMEM;
+- 
+--	spi_set_ctldata(spi, as_dev);
+-+	spi_set_ctldata(spi, txrx_buf);
+- 
+- 	return 0;
+- }
+- 
+--static void airoha_snand_cleanup(struct spi_device *spi)
+--{
+--	struct airoha_snand_dev *as_dev = spi_get_ctldata(spi);
+--	struct airoha_snand_ctrl *as_ctrl;
+--
+--	as_ctrl = spi_controller_get_devdata(spi->controller);
+--	dma_unmap_single(as_ctrl->dev, as_dev->dma_addr,
+--			 as_dev->buf_len, DMA_BIDIRECTIONAL);
+--	spi_set_ctldata(spi, NULL);
+--}
+--
+- static int airoha_snand_nfi_setup(struct airoha_snand_ctrl *as_ctrl)
+- {
+- 	u32 val, sec_size, sec_num;
+-@@ -1093,7 +1082,6 @@ static int airoha_snand_probe(struct pla
+- 	ctrl->bits_per_word_mask = SPI_BPW_MASK(8);
+- 	ctrl->mode_bits = SPI_RX_DUAL;
+- 	ctrl->setup = airoha_snand_setup;
+--	ctrl->cleanup = airoha_snand_cleanup;
+- 	device_set_node(&ctrl->dev, dev_fwnode(dev));
+- 
+- 	err = airoha_snand_nfi_setup(as_ctrl);
+diff --git a/target/linux/airoha/patches-6.12/029-01-spi-airoha-return-an-error-for-continuous-mode-di.patch b/target/linux/airoha/patches-6.12/029-01-spi-airoha-return-an-error-for-continuous-mode-di.patch
+deleted file mode 100644
+index 9ee47fcbe5..0000000000
+--- a/target/linux/airoha/patches-6.12/029-01-spi-airoha-return-an-error-for-continuous-mode-di.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 4aac08add11979d838335ebff0dc42c532f05c98 Mon Sep 17 00:00:00 2001
+-From: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Date: Mon, 4 Aug 2025 21:45:46 +0300
+-Subject: [PATCH v6 01/13] spi: airoha: return an error for continuous mode
+- dirmap creation cases
+-
+-This driver can accelerate single page operations only, thus
+-continuous reading mode should not be used.
+-
+-Continuous reading will use sizes up to the size of one erase block.
+-This size is much larger than the size of single flash page. Use this
+-difference to identify continuous reading and return an error.
+-
+-Signed-off-by: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+----
+- drivers/spi/spi-airoha-snfi.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+---- a/drivers/spi/spi-airoha-snfi.c
+-+++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -618,6 +618,10 @@ static int airoha_snand_dirmap_create(st
+- 	if (desc->info.offset + desc->info.length > U32_MAX)
+- 		return -EINVAL;
+- 
+-+	/* continuous reading is not supported */
+-+	if (desc->info.length > SPI_NAND_CACHE_SIZE)
+-+		return -E2BIG;
+-+
+- 	if (!airoha_snand_supports_op(desc->mem, &desc->info.op_tmpl))
+- 		return -EOPNOTSUPP;
+- 
+diff --git a/target/linux/airoha/patches-6.12/029-02-spi-airoha-remove-unnecessary-restriction-length.patch b/target/linux/airoha/patches-6.12/029-02-spi-airoha-remove-unnecessary-restriction-length.patch
+index bbb4121282..e3b9f0ccbe 100644
+--- a/target/linux/airoha/patches-6.12/029-02-spi-airoha-remove-unnecessary-restriction-length.patch
++++ b/target/linux/airoha/patches-6.12/029-02-spi-airoha-remove-unnecessary-restriction-length.patch
+@@ -15,7 +15,7 @@ Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com
+ 
+ --- a/drivers/spi/spi-airoha-snfi.c
+ +++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -579,13 +579,6 @@ static int airoha_snand_adjust_op_size(s
++@@ -619,13 +619,6 @@ static int airoha_snand_adjust_op_size(s
+  
+  		if (op->data.nbytes > max_len)
+  			op->data.nbytes = max_len;
+diff --git a/target/linux/airoha/patches-6.12/029-03-spi-airoha-add-support-of-dual-quad-wires-spi-mod.patch b/target/linux/airoha/patches-6.12/029-03-spi-airoha-add-support-of-dual-quad-wires-spi-mod.patch
+deleted file mode 100644
+index ff54feab79..0000000000
+--- a/target/linux/airoha/patches-6.12/029-03-spi-airoha-add-support-of-dual-quad-wires-spi-mod.patch
++++ /dev/null
+@@ -1,209 +0,0 @@
+-From 703b10241666b468484a6ec5eb5c7c71fb2463ef Mon Sep 17 00:00:00 2001
+-From: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Date: Sat, 7 Jun 2025 09:09:38 +0300
+-Subject: [PATCH v6 03/13] spi: airoha: add support of dual/quad wires spi
+- modes to exec_op() handler
+-
+-Booting without this patch and disabled dirmap support results in
+-
+-[    2.980719] spi-nand spi0.0: Micron SPI NAND was found.
+-[    2.986040] spi-nand spi0.0: 256 MiB, block size: 128 KiB, page size: 2048, OOB size: 128
+-[    2.994709] 2 fixed-partitions partitions found on MTD device spi0.0
+-[    3.001075] Creating 2 MTD partitions on "spi0.0":
+-[    3.005862] 0x000000000000-0x000000020000 : "bl2"
+-[    3.011272] 0x000000020000-0x000010000000 : "ubi"
+-...
+-[    6.195594] ubi0: attaching mtd1
+-[   13.338398] ubi0: scanning is finished
+-[   13.342188] ubi0 error: ubi_read_volume_table: the layout volume was not found
+-[   13.349784] ubi0 error: ubi_attach_mtd_dev: failed to attach mtd1, error -22
+-[   13.356897] UBI error: cannot attach mtd1
+-
+-If dirmap is disabled or not supported in the spi driver, the dirmap requests
+-will be executed via exec_op() handler. Thus, if the hardware supports
+-dual/quad spi modes, then corresponding requests will be sent to exec_op()
+-handler. Current driver does not support such requests, so error is arrised.
+-As result the flash can't be read/write.
+-
+-This patch adds support of dual and quad wires spi modes to exec_op() handler.
+-
+-Fixes: a403997c12019 ("spi: airoha: add SPI-NAND Flash controller driver")
+-Signed-off-by: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+----
+- drivers/spi/spi-airoha-snfi.c | 108 ++++++++++++++++++++++++++--------
+- 1 file changed, 82 insertions(+), 26 deletions(-)
+-
+---- a/drivers/spi/spi-airoha-snfi.c
+-+++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -192,6 +192,14 @@
+- #define SPI_NAND_OP_RESET			0xff
+- #define SPI_NAND_OP_DIE_SELECT			0xc2
+- 
+-+/* SNAND FIFO commands */
+-+#define SNAND_FIFO_TX_BUSWIDTH_SINGLE		0x08
+-+#define SNAND_FIFO_TX_BUSWIDTH_DUAL		0x09
+-+#define SNAND_FIFO_TX_BUSWIDTH_QUAD		0x0a
+-+#define SNAND_FIFO_RX_BUSWIDTH_SINGLE		0x0c
+-+#define SNAND_FIFO_RX_BUSWIDTH_DUAL		0x0e
+-+#define SNAND_FIFO_RX_BUSWIDTH_QUAD		0x0f
+-+
+- #define SPI_NAND_CACHE_SIZE			(SZ_4K + SZ_256)
+- #define SPI_MAX_TRANSFER_SIZE			511
+- 
+-@@ -387,10 +395,26 @@ static int airoha_snand_set_mode(struct
+- 	return regmap_write(as_ctrl->regmap_ctrl, REG_SPI_CTRL_DUMMY, 0);
+- }
+- 
+--static int airoha_snand_write_data(struct airoha_snand_ctrl *as_ctrl, u8 cmd,
+--				   const u8 *data, int len)
+-+static int airoha_snand_write_data(struct airoha_snand_ctrl *as_ctrl,
+-+				   const u8 *data, int len, int buswidth)
+- {
+- 	int i, data_len;
+-+	u8 cmd;
+-+
+-+	switch (buswidth) {
+-+	case 0:
+-+	case 1:
+-+		cmd = SNAND_FIFO_TX_BUSWIDTH_SINGLE;
+-+		break;
+-+	case 2:
+-+		cmd = SNAND_FIFO_TX_BUSWIDTH_DUAL;
+-+		break;
+-+	case 4:
+-+		cmd = SNAND_FIFO_TX_BUSWIDTH_QUAD;
+-+		break;
+-+	default:
+-+		return -EINVAL;
+-+	}
+- 
+- 	for (i = 0; i < len; i += data_len) {
+- 		int err;
+-@@ -409,16 +433,32 @@ static int airoha_snand_write_data(struc
+- 	return 0;
+- }
+- 
+--static int airoha_snand_read_data(struct airoha_snand_ctrl *as_ctrl, u8 *data,
+--				  int len)
+-+static int airoha_snand_read_data(struct airoha_snand_ctrl *as_ctrl,
+-+				  u8 *data, int len, int buswidth)
+- {
+- 	int i, data_len;
+-+	u8 cmd;
+-+
+-+	switch (buswidth) {
+-+	case 0:
+-+	case 1:
+-+		cmd = SNAND_FIFO_RX_BUSWIDTH_SINGLE;
+-+		break;
+-+	case 2:
+-+		cmd = SNAND_FIFO_RX_BUSWIDTH_DUAL;
+-+		break;
+-+	case 4:
+-+		cmd = SNAND_FIFO_RX_BUSWIDTH_QUAD;
+-+		break;
+-+	default:
+-+		return -EINVAL;
+-+	}
+- 
+- 	for (i = 0; i < len; i += data_len) {
+- 		int err;
+- 
+- 		data_len = min(len - i, SPI_MAX_TRANSFER_SIZE);
+--		err = airoha_snand_set_fifo_op(as_ctrl, 0xc, data_len);
+-+		err = airoha_snand_set_fifo_op(as_ctrl, cmd, data_len);
+- 		if (err)
+- 			return err;
+- 
+-@@ -895,12 +935,28 @@ error_dma_unmap:
+- static int airoha_snand_exec_op(struct spi_mem *mem,
+- 				const struct spi_mem_op *op)
+- {
+--	u8 data[8], cmd, opcode = op->cmd.opcode;
+- 	struct airoha_snand_ctrl *as_ctrl;
+-+	int op_len, addr_len, dummy_len;
+-+	u8 buf[20], *data;
+- 	int i, err;
+- 
+- 	as_ctrl = spi_controller_get_devdata(mem->spi->controller);
+- 
+-+	op_len = op->cmd.nbytes;
+-+	addr_len = op->addr.nbytes;
+-+	dummy_len = op->dummy.nbytes;
+-+
+-+	if (op_len + dummy_len + addr_len > sizeof(buf))
+-+		return -EIO;
+-+
+-+	data = buf;
+-+	for (i = 0; i < op_len; i++)
+-+		*data++ = op->cmd.opcode >> (8 * (op_len - i - 1));
+-+	for (i = 0; i < addr_len; i++)
+-+		*data++ = op->addr.val >> (8 * (addr_len - i - 1));
+-+	for (i = 0; i < dummy_len; i++)
+-+		*data++ = 0xff;
+-+
+- 	/* switch to manual mode */
+- 	err = airoha_snand_set_mode(as_ctrl, SPI_MODE_MANUAL);
+- 	if (err < 0)
+-@@ -911,40 +967,40 @@ static int airoha_snand_exec_op(struct s
+- 		return err;
+- 
+- 	/* opcode */
+--	err = airoha_snand_write_data(as_ctrl, 0x8, &opcode, sizeof(opcode));
+-+	data = buf;
+-+	err = airoha_snand_write_data(as_ctrl, data, op_len,
+-+				      op->cmd.buswidth);
+- 	if (err)
+- 		return err;
+- 
+- 	/* addr part */
+--	cmd = opcode == SPI_NAND_OP_GET_FEATURE ? 0x11 : 0x8;
+--	put_unaligned_be64(op->addr.val, data);
+--
+--	for (i = ARRAY_SIZE(data) - op->addr.nbytes;
+--	     i < ARRAY_SIZE(data); i++) {
+--		err = airoha_snand_write_data(as_ctrl, cmd, &data[i],
+--					      sizeof(data[0]));
+-+	data += op_len;
+-+	if (addr_len) {
+-+		err = airoha_snand_write_data(as_ctrl, data, addr_len,
+-+					      op->addr.buswidth);
+- 		if (err)
+- 			return err;
+- 	}
+- 
+- 	/* dummy */
+--	data[0] = 0xff;
+--	for (i = 0; i < op->dummy.nbytes; i++) {
+--		err = airoha_snand_write_data(as_ctrl, 0x8, &data[0],
+--					      sizeof(data[0]));
+-+	data += addr_len;
+-+	if (dummy_len) {
+-+		err = airoha_snand_write_data(as_ctrl, data, dummy_len,
+-+					      op->dummy.buswidth);
+- 		if (err)
+- 			return err;
+- 	}
+- 
+- 	/* data */
+--	if (op->data.dir == SPI_MEM_DATA_IN) {
+--		err = airoha_snand_read_data(as_ctrl, op->data.buf.in,
+--					     op->data.nbytes);
+--		if (err)
+--			return err;
+--	} else {
+--		err = airoha_snand_write_data(as_ctrl, 0x8, op->data.buf.out,
+--					      op->data.nbytes);
+-+	if (op->data.nbytes) {
+-+		if (op->data.dir == SPI_MEM_DATA_IN)
+-+			err = airoha_snand_read_data(as_ctrl, op->data.buf.in,
+-+						     op->data.nbytes,
+-+						     op->data.buswidth);
+-+		else
+-+			err = airoha_snand_write_data(as_ctrl, op->data.buf.out,
+-+						      op->data.nbytes,
+-+						      op->data.buswidth);
+- 		if (err)
+- 			return err;
+- 	}
+diff --git a/target/linux/airoha/patches-6.12/029-04-spi-airoha-remove-unnecessary-switch-to-non-dma-m.patch b/target/linux/airoha/patches-6.12/029-04-spi-airoha-remove-unnecessary-switch-to-non-dma-m.patch
+index 7735d22d00..626e5c0ad9 100644
+--- a/target/linux/airoha/patches-6.12/029-04-spi-airoha-remove-unnecessary-switch-to-non-dma-m.patch
++++ b/target/linux/airoha/patches-6.12/029-04-spi-airoha-remove-unnecessary-switch-to-non-dma-m.patch
+@@ -17,7 +17,7 @@ Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com
+ 
+ --- a/drivers/spi/spi-airoha-snfi.c
+ +++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -812,9 +812,6 @@ static ssize_t airoha_snand_dirmap_write
++@@ -815,9 +815,6 @@ static ssize_t airoha_snand_dirmap_write
+  	int err;
+  
+  	as_ctrl = spi_controller_get_devdata(spi->controller);
+diff --git a/target/linux/airoha/patches-6.12/029-05-spi-airoha-switch-back-to-non-dma-mode-in-the-cas.patch b/target/linux/airoha/patches-6.12/029-05-spi-airoha-switch-back-to-non-dma-mode-in-the-cas.patch
+deleted file mode 100644
+index 39e759fec7..0000000000
+--- a/target/linux/airoha/patches-6.12/029-05-spi-airoha-switch-back-to-non-dma-mode-in-the-cas.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From 711584484d76448763959ed4e103895d9dcc7438 Mon Sep 17 00:00:00 2001
+-From: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Date: Mon, 11 Aug 2025 20:24:42 +0300
+-Subject: [PATCH v6 05/13] spi: airoha: switch back to non-dma mode in the case
+- of error
+-
+-Current dirmap code does not switch back to non-dma mode in the case of
+-error. This is wrong.
+-
+-This patch fixes dirmap read/write error path.
+-
+-Fixes: a403997c12019 ("spi: airoha: add SPI-NAND Flash controller driver")
+-Signed-off-by: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
+-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+----
+- drivers/spi/spi-airoha-snfi.c | 7 +++++--
+- 1 file changed, 5 insertions(+), 2 deletions(-)
+-
+---- a/drivers/spi/spi-airoha-snfi.c
+-+++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -691,13 +691,13 @@ static ssize_t airoha_snand_dirmap_read(
+- 
+- 	err = airoha_snand_nfi_config(as_ctrl);
+- 	if (err)
+--		return err;
+-+		goto error_dma_mode_off;
+- 
+- 	dma_addr = dma_map_single(as_ctrl->dev, txrx_buf, SPI_NAND_CACHE_SIZE,
+- 				  DMA_FROM_DEVICE);
+- 	err = dma_mapping_error(as_ctrl->dev, dma_addr);
+- 	if (err)
+--		return err;
+-+		goto error_dma_mode_off;
+- 
+- 	/* set dma addr */
+- 	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_STRADDR,
+-@@ -797,6 +797,8 @@ static ssize_t airoha_snand_dirmap_read(
+- error_dma_unmap:
+- 	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+- 			 DMA_FROM_DEVICE);
+-+error_dma_mode_off:
+-+	airoha_snand_set_mode(as_ctrl, SPI_MODE_MANUAL);
+- 	return err;
+- }
+- 
+-@@ -926,6 +928,7 @@ static ssize_t airoha_snand_dirmap_write
+- error_dma_unmap:
+- 	dma_unmap_single(as_ctrl->dev, dma_addr, SPI_NAND_CACHE_SIZE,
+- 			 DMA_TO_DEVICE);
+-+	airoha_snand_set_mode(as_ctrl, SPI_MODE_MANUAL);
+- 	return err;
+- }
+- 
+diff --git a/target/linux/airoha/patches-6.12/029-06-spi-airoha-fix-reading-writing-of-flashes-with-mo.patch b/target/linux/airoha/patches-6.12/029-06-spi-airoha-fix-reading-writing-of-flashes-with-mo.patch
+deleted file mode 100644
+index 24515c8c03..0000000000
+--- a/target/linux/airoha/patches-6.12/029-06-spi-airoha-fix-reading-writing-of-flashes-with-mo.patch
++++ /dev/null
+@@ -1,102 +0,0 @@
+-From d8a0a67bf75c4cf2a760b6fa0002b0baff6e8b20 Mon Sep 17 00:00:00 2001
+-From: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Date: Mon, 11 Aug 2025 20:32:40 +0300
+-Subject: [PATCH v6 06/13] spi: airoha: fix reading/writing of flashes with
+- more than one plane per lun
+-
+-Attaching UBI on the flash with more than one plane per lun will lead to
+-the following error:
+-
+-[    2.980989] spi-nand spi0.0: Micron SPI NAND was found.
+-[    2.986309] spi-nand spi0.0: 256 MiB, block size: 128 KiB, page size: 2048, OOB size: 128
+-[    2.994978] 2 fixed-partitions partitions found on MTD device spi0.0
+-[    3.001350] Creating 2 MTD partitions on "spi0.0":
+-[    3.006159] 0x000000000000-0x000000020000 : "bl2"
+-[    3.011663] 0x000000020000-0x000010000000 : "ubi"
+-...
+-[    6.391748] ubi0: attaching mtd1
+-[    6.412545] ubi0 error: ubi_attach: PEB 0 contains corrupted VID header, and the data does not contain all 0xFF
+-[    6.422677] ubi0 error: ubi_attach: this may be a non-UBI PEB or a severe VID header corruption which requires manual inspection
+-[    6.434249] Volume identifier header dump:
+-[    6.438349]     magic     55424923
+-[    6.441482]     version   1
+-[    6.444007]     vol_type  0
+-[    6.446539]     copy_flag 0
+-[    6.449068]     compat    0
+-[    6.451594]     vol_id    0
+-[    6.454120]     lnum      1
+-[    6.456651]     data_size 4096
+-[    6.459442]     used_ebs  1061644134
+-[    6.462748]     data_pad  0
+-[    6.465274]     sqnum     0
+-[    6.467805]     hdr_crc   61169820
+-[    6.470943] Volume identifier header hexdump:
+-[    6.475308] hexdump of PEB 0 offset 4096, length 126976
+-[    6.507391] ubi0 warning: ubi_attach: valid VID header but corrupted EC header at PEB 4
+-[    6.515415] ubi0 error: ubi_compare_lebs: unsupported on-flash UBI format
+-[    6.522222] ubi0 error: ubi_attach_mtd_dev: failed to attach mtd1, error -22
+-[    6.529294] UBI error: cannot attach mtd1
+-
+-Non dirmap reading works good. Looking to spi_mem_no_dirmap_read() code we'll see:
+-
+-	static ssize_t spi_mem_no_dirmap_read(struct spi_mem_dirmap_desc *desc,
+-					      u64 offs, size_t len, void *buf)
+-	{
+-		struct spi_mem_op op = desc->info.op_tmpl;
+-		int ret;
+-
+-// --- see here ---
+-		op.addr.val = desc->info.offset + offs;
+-//-----------------
+-		op.data.buf.in = buf;
+-		op.data.nbytes = len;
+-		ret = spi_mem_adjust_op_size(desc->mem, &op);
+-		if (ret)
+-		return ret;
+-
+-		ret = spi_mem_exec_op(desc->mem, &op);
+-		if (ret)
+-			return ret;
+-
+-		return op.data.nbytes;
+-	}
+-
+-The similar happens for spi_mem_no_dirmap_write(). Thus the address
+-passed to the flash should take in the account the value of
+-desc->info.offset.
+-
+-This patch fix dirmap reading/writing of flashes with more than one
+-plane per lun.
+-
+-Fixes: a403997c12019 ("spi: airoha: add SPI-NAND Flash controller driver")
+-Signed-off-by: Mikhail Kshevetskiy <mikhail.kshevetskiy@iopsys.eu>
+-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+----
+- drivers/spi/spi-airoha-snfi.c | 9 ++++++---
+- 1 file changed, 6 insertions(+), 3 deletions(-)
+-
+---- a/drivers/spi/spi-airoha-snfi.c
+-+++ b/drivers/spi/spi-airoha-snfi.c
+-@@ -726,8 +726,9 @@ static ssize_t airoha_snand_dirmap_read(
+- 	if (err)
+- 		goto error_dma_unmap;
+- 
+--	/* set read addr */
+--	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_RD_CTL3, 0x0);
+-+	/* set read addr: zero page offset + descriptor read offset */
+-+	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_RD_CTL3,
+-+			   desc->info.offset);
+- 	if (err)
+- 		goto error_dma_unmap;
+- 
+-@@ -860,7 +861,9 @@ static ssize_t airoha_snand_dirmap_write
+- 	if (err)
+- 		goto error_dma_unmap;
+- 
+--	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_PG_CTL2, 0x0);
+-+	/* set write addr: zero page offset + descriptor write offset */
+-+	err = regmap_write(as_ctrl->regmap_nfi, REG_SPI_NFI_PG_CTL2,
+-+			   desc->info.offset);
+- 	if (err)
+- 		goto error_dma_unmap;
+- 
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0312-hwmon-sht3x-Add-DT-compatible-string.patch b/target/linux/bcm27xx/patches-6.12/950-0312-hwmon-sht3x-Add-DT-compatible-string.patch
+index 6bb2725b28..2199a05860 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0312-hwmon-sht3x-Add-DT-compatible-string.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0312-hwmon-sht3x-Add-DT-compatible-string.patch
+@@ -10,7 +10,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ 
+ --- a/drivers/hwmon/sht3x.c
+ +++ b/drivers/hwmon/sht3x.c
+-@@ -954,19 +954,19 @@ static int sht3x_probe(struct i2c_client
++@@ -961,19 +961,19 @@ static int sht3x_probe(struct i2c_client
+  	return PTR_ERR_OR_ZERO(hwmon_dev);
+  }
+  
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0331-serial-sc16is7xx-Read-modem-line-state-at-startup.patch b/target/linux/bcm27xx/patches-6.12/950-0331-serial-sc16is7xx-Read-modem-line-state-at-startup.patch
+index 686aba0ecf..5b5750aea0 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0331-serial-sc16is7xx-Read-modem-line-state-at-startup.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0331-serial-sc16is7xx-Read-modem-line-state-at-startup.patch
+@@ -16,7 +16,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ 
+ --- a/drivers/tty/serial/sc16is7xx.c
+ +++ b/drivers/tty/serial/sc16is7xx.c
+-@@ -1196,6 +1196,9 @@ static int sc16is7xx_startup(struct uart
++@@ -1189,6 +1189,9 @@ static int sc16is7xx_startup(struct uart
+  	      SC16IS7XX_IER_MSI_BIT;
+  	sc16is7xx_port_write(port, SC16IS7XX_IER_REG, val);
+  
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0416-serial-sc16is7xx-Don-t-spin-if-no-data-received.patch b/target/linux/bcm27xx/patches-6.12/950-0416-serial-sc16is7xx-Don-t-spin-if-no-data-received.patch
+index d668cf1857..26f662acdf 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0416-serial-sc16is7xx-Don-t-spin-if-no-data-received.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0416-serial-sc16is7xx-Don-t-spin-if-no-data-received.patch
+@@ -15,7 +15,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ 
+ --- a/drivers/tty/serial/sc16is7xx.c
+ +++ b/drivers/tty/serial/sc16is7xx.c
+-@@ -821,6 +821,8 @@ static bool sc16is7xx_port_irq(struct sc
++@@ -814,6 +814,8 @@ static bool sc16is7xx_port_irq(struct sc
+  
+  		if (rxlen)
+  			sc16is7xx_handle_rx(port, rxlen, iir);
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0623-arm64-dts-broadcom-Add-display-pipeline-support-to-B.patch b/target/linux/bcm27xx/patches-6.12/950-0623-arm64-dts-broadcom-Add-display-pipeline-support-to-B.patch
+index e5578b2d8e..f230101e7b 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0623-arm64-dts-broadcom-Add-display-pipeline-support-to-B.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0623-arm64-dts-broadcom-Add-display-pipeline-support-to-B.patch
+@@ -36,8 +36,8 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+  };
+ --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+ +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+-@@ -265,6 +265,172 @@
+- 			interrupt-controller;
++@@ -268,6 +268,172 @@
++ 					IRQ_TYPE_LEVEL_HIGH)>;
+  			#interrupt-cells = <3>;
+  		};
+ +
+@@ -209,7 +209,7 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+  	};
+  
+  	timer {
+-@@ -280,4 +446,27 @@
++@@ -283,4 +449,27 @@
+  			     <GIC_PPI 12 (GIC_CPU_MASK_SIMPLE(4) |
+  					  IRQ_TYPE_LEVEL_LOW)>;
+  	};
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0628-arm64-dts-broadcom-Fixup-HVS-address-for-downstream-.patch b/target/linux/bcm27xx/patches-6.12/950-0628-arm64-dts-broadcom-Fixup-HVS-address-for-downstream-.patch
+index a4a712e2b5..4dd931b964 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0628-arm64-dts-broadcom-Fixup-HVS-address-for-downstream-.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0628-arm64-dts-broadcom-Fixup-HVS-address-for-downstream-.patch
+@@ -14,7 +14,7 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+ 
+ --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+ +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+-@@ -463,10 +463,10 @@
++@@ -466,10 +466,10 @@
+  
+  	hvs: hvs@107c580000 {
+  		compatible = "brcm,bcm2712-hvs";
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0702-serial-sc16is7xx-announce-support-for-SER_RS485_RTS_.patch b/target/linux/bcm27xx/patches-6.12/950-0702-serial-sc16is7xx-announce-support-for-SER_RS485_RTS_.patch
+index 7a8b37a00d..5109a9879d 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0702-serial-sc16is7xx-announce-support-for-SER_RS485_RTS_.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0702-serial-sc16is7xx-announce-support-for-SER_RS485_RTS_.patch
+@@ -31,7 +31,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ 
+ --- a/drivers/tty/serial/sc16is7xx.c
+ +++ b/drivers/tty/serial/sc16is7xx.c
+-@@ -1468,7 +1468,7 @@ static int sc16is7xx_setup_mctrl_ports(s
++@@ -1461,7 +1461,7 @@ static int sc16is7xx_setup_mctrl_ports(s
+  }
+  
+  static const struct serial_rs485 sc16is7xx_rs485_supported = {
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0794-arm64-dts-Prepare-for-size-cells-2.patch b/target/linux/bcm27xx/patches-6.12/950-0794-arm64-dts-Prepare-for-size-cells-2.patch
+index e7f862d668..e9e661dbb8 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0794-arm64-dts-Prepare-for-size-cells-2.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0794-arm64-dts-Prepare-for-size-cells-2.patch
+@@ -72,7 +72,7 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+  	};
+ --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+ +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+-@@ -463,7 +463,11 @@
++@@ -466,7 +466,11 @@
+  
+  	hvs: hvs@107c580000 {
+  		compatible = "brcm,bcm2712-hvs";
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0900-arm64-dts-broadcom-bcm2712-Add-PCIe-DT-nodes.patch b/target/linux/bcm27xx/patches-6.12/950-0900-arm64-dts-broadcom-bcm2712-Add-PCIe-DT-nodes.patch
+index 580088e861..5d619f8aa6 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0900-arm64-dts-broadcom-bcm2712-Add-PCIe-DT-nodes.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0900-arm64-dts-broadcom-bcm2712-Add-PCIe-DT-nodes.patch
+@@ -39,7 +39,7 @@ Signed-off-by: Stanimir Varbanov <svarbanov@suse.de>
+  		system_timer: timer@7c003000 {
+  			compatible = "brcm,bcm2835-system-timer";
+  			reg = <0x7c003000 0x1000>;
+-@@ -431,6 +443,141 @@
++@@ -434,6 +446,141 @@
+  		vc4: gpu {
+  			compatible = "brcm,bcm2712-vc6";
+  		};
+diff --git a/target/linux/generic/hack-6.12/780-usb-net-MeigLink_modem_support.patch b/target/linux/generic/hack-6.12/780-usb-net-MeigLink_modem_support.patch
+index f0b9a2f646..099bd428eb 100644
+--- a/target/linux/generic/hack-6.12/780-usb-net-MeigLink_modem_support.patch
++++ b/target/linux/generic/hack-6.12/780-usb-net-MeigLink_modem_support.patch
+@@ -44,7 +44,7 @@ Subject: [PATCH] net/usb/qmi_wwan: add MeigLink modem support
+  
+  #define QUECTEL_VENDOR_ID			0x2c7c
+  /* These Quectel products use Quectel's vendor ID */
+-@@ -1154,6 +1159,11 @@ static const struct usb_device_id option
++@@ -1156,6 +1161,11 @@ static const struct usb_device_id option
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x0023)}, /* ONYX 3G device */
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x9000), /* SIMCom SIM5218 */
+  	  .driver_info = NCTRL(0) | NCTRL(1) | NCTRL(2) | NCTRL(3) | RSVD(4) },
+@@ -56,7 +56,7 @@ Subject: [PATCH] net/usb/qmi_wwan: add MeigLink modem support
+  	/* Quectel products using Qualcomm vendor ID */
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, QUECTEL_PRODUCT_UC15)},
+  	{ USB_DEVICE(QUALCOMM_VENDOR_ID, QUECTEL_PRODUCT_UC20),
+-@@ -1195,6 +1205,11 @@ static const struct usb_device_id option
++@@ -1197,6 +1207,11 @@ static const struct usb_device_id option
+  	  .driver_info = ZLP },
+  	{ USB_DEVICE(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_BG96),
+  	  .driver_info = RSVD(4) },
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index c1aed9b3dc..a55d78ec64 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .55
+-LINUX_KERNEL_HASH-6.12.55 = 328f8f4608a653063a5fd82d29b17163faab2825fa419fa85b961740a342fb9f
++LINUX_VERSION-6.12 = .56
++LINUX_KERNEL_HASH-6.12.56 = 55432b2af352f7bf3053c348d8549df2f2deeaa4a361c65d638c2f3b2ca7ec96
+diff --git a/target/linux/generic/pending-6.12/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch b/target/linux/generic/pending-6.12/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
+index 3ada4a0e9b..7842889a98 100644
+--- a/target/linux/generic/pending-6.12/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
++++ b/target/linux/generic/pending-6.12/710-bridge-add-knob-for-filtering-rx-tx-BPDU-pack.patch
+@@ -161,7 +161,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  
+  struct rtnl_link {
+  	rtnl_doit_func		doit;
+-@@ -5012,7 +5012,9 @@ int ndo_dflt_bridge_getlink(struct sk_bu
++@@ -5009,7 +5009,9 @@ int ndo_dflt_bridge_getlink(struct sk_bu
+  	    brport_nla_put_flag(skb, flags, mask,
+  				IFLA_BRPORT_MCAST_FLOOD, BR_MCAST_FLOOD) ||
+  	    brport_nla_put_flag(skb, flags, mask,
+diff --git a/target/linux/starfive/patches-6.12/0010-uart-8250-add-reset-operation-in-runtime-PM.patch b/target/linux/starfive/patches-6.12/0010-uart-8250-add-reset-operation-in-runtime-PM.patch
+index c49e34a4c0..1b57751779 100644
+--- a/target/linux/starfive/patches-6.12/0010-uart-8250-add-reset-operation-in-runtime-PM.patch
++++ b/target/linux/starfive/patches-6.12/0010-uart-8250-add-reset-operation-in-runtime-PM.patch
+@@ -12,7 +12,7 @@ Signed-off-by: William Qiu <william.qiu@starfivetech.com>
+ 
+ --- a/drivers/tty/serial/8250/8250_dw.c
+ +++ b/drivers/tty/serial/8250/8250_dw.c
+-@@ -710,6 +710,8 @@ static int dw8250_runtime_suspend(struct
++@@ -712,6 +712,8 @@ static int dw8250_runtime_suspend(struct
+  {
+  	struct dw8250_data *data = dev_get_drvdata(dev);
+  
+@@ -21,7 +21,7 @@ Signed-off-by: William Qiu <william.qiu@starfivetech.com>
+  	clk_disable_unprepare(data->clk);
+  
+  	clk_disable_unprepare(data->pclk);
+-@@ -725,6 +727,8 @@ static int dw8250_runtime_resume(struct
++@@ -727,6 +729,8 @@ static int dw8250_runtime_resume(struct
+  
+  	clk_prepare_enable(data->clk);
+  
+diff --git a/target/linux/starfive/patches-6.12/1002-serial-8250_dw-Add-starfive-jh7100-hsuart-compatible.patch b/target/linux/starfive/patches-6.12/1002-serial-8250_dw-Add-starfive-jh7100-hsuart-compatible.patch
+index a16f04cda7..cb5acbc088 100644
+--- a/target/linux/starfive/patches-6.12/1002-serial-8250_dw-Add-starfive-jh7100-hsuart-compatible.patch
++++ b/target/linux/starfive/patches-6.12/1002-serial-8250_dw-Add-starfive-jh7100-hsuart-compatible.patch
+@@ -15,7 +15,7 @@ Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+ 
+ --- a/drivers/tty/serial/8250/8250_dw.c
+ +++ b/drivers/tty/serial/8250/8250_dw.c
+-@@ -768,6 +768,7 @@ static const struct of_device_id dw8250_
++@@ -770,6 +770,7 @@ static const struct of_device_id dw8250_
+  	{ .compatible = "marvell,armada-38x-uart", .data = &dw8250_armada_38x_data },
+  	{ .compatible = "renesas,rzn1-uart", .data = &dw8250_renesas_rzn1_data },
+  	{ .compatible = "sophgo,sg2044-uart", .data = &dw8250_skip_set_rate_data },
+-- 
+2.51.0
+
