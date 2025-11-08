@@ -1,0 +1,63 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0402-drivers-thermal-step_wise-add-support-for-hysteresis.patch b/target/linux/bcm27xx/patches-6.12/950-0402-drivers-thermal-step_wise-add-support-for-hysteresis.patch
+index d0c9fab6d4..77c32b4f7c 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0402-drivers-thermal-step_wise-add-support-for-hysteresis.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0402-drivers-thermal-step_wise-add-support-for-hysteresis.patch
+@@ -36,7 +36,7 @@ Signed-off-by: Jürgen Kreileder <jk@blackdown.de>
+ 
+ --- a/drivers/thermal/gov_step_wise.c
+ +++ b/drivers/thermal/gov_step_wise.c
+-@@ -17,11 +17,11 @@
++@@ -17,13 +17,13 @@
+  #include "thermal_core.h"
+  
+  /*
+@@ -44,7 +44,9 @@ Signed-off-by: Jürgen Kreileder <jk@blackdown.de>
+ + * If the temperature is higher than a hysteresis temperature,
+   *    a. if the trend is THERMAL_TREND_RAISING, use higher cooling
+   *       state for this trip point
+-  *    b. if the trend is THERMAL_TREND_DROPPING, do nothing
++  *    b. if the trend is THERMAL_TREND_DROPPING, use a lower cooling state
++  *       for this trip point, but keep the cooling state above the applicable
++  *       minimum
+ - * If the temperature is lower than a trip point,
+ + * If the temperature is lower than a hysteresis temperature,
+   *    a. if the trend is THERMAL_TREND_RAISING, do nothing
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0410-media-i2c-adv7180-Add-support-for-V4L2_CID_LINK_FREQ.patch b/target/linux/bcm27xx/patches-6.12/950-0410-media-i2c-adv7180-Add-support-for-V4L2_CID_LINK_FREQ.patch
+index 4bc7a684eb..28392a8606 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0410-media-i2c-adv7180-Add-support-for-V4L2_CID_LINK_FREQ.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0410-media-i2c-adv7180-Add-support-for-V4L2_CID_LINK_FREQ.patch
+@@ -85,14 +85,16 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+  	state->sd.ctrl_handler = &state->ctrl_hdl;
+  	if (state->ctrl_hdl.error) {
+  		int err = state->ctrl_hdl.error;
+-@@ -849,6 +875,10 @@ static int adv7180_set_pad_format(struct
+- 			adv7180_set_power(state, false);
+- 			adv7180_set_field_mode(state);
+- 			adv7180_set_power(state, true);
+-+			if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2)
+-+				__v4l2_ctrl_s_ctrl(state->link_freq,
+-+						   (state->field == V4L2_FIELD_NONE) ?
+-+						   I2P_IDX : INTERLACED_IDX);
+- 		}
++@@ -815,6 +840,12 @@ static int adv7180_set_pad_format(struct v4l2_subdev *sd,
++ 
++ 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
++ 		state->field = format->format.field;
+++
+++		if (state->chip_info->flags & ADV7180_FLAG_MIPI_CSI2)
+++			__v4l2_ctrl_s_ctrl(state->link_freq,
+++					   (state->field == V4L2_FIELD_NONE) ?
+++						I2P_IDX : INTERLACED_IDX);
+++
+  	} else {
+  		framefmt = v4l2_subdev_state_get_format(sd_state, 0);
++ 		*framefmt = format->format;
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index c1aed9b3dc..2384dfeca0 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .57
+-LINUX_KERNEL_HASH-6.12.57 = 165ca1c37c4607b90e731996b7c1e3311285167d13deeedf08f3f1f0b9d2541a
++LINUX_VERSION-6.12 = .58
++LINUX_KERNEL_HASH-6.12.58 = dce52ad3d7f0bbc7319f5c234e45c5e1ceb2bb9d1b6333e9e61fe4355c261f16
