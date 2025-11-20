@@ -1,0 +1,9 @@
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index c1aed9b3dc..2384dfeca0 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .58
+-LINUX_KERNEL_HASH-6.12.58 = 5f1c4c546660a6a81046fdfa6195306bad2c8d17c0d69876dc100a85ad4613ac
++LINUX_VERSION-6.12 = .59
++LINUX_KERNEL_HASH-6.12.59 = 17c4215f9a2e6a55e63d0b257d0ac86fe165cc519578681e5d12cb0434339fef
