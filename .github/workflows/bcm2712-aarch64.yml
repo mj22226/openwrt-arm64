@@ -11,11 +11,11 @@ jobs:
                 sudo apt update
                 sudo apt install -y subversion build-essential gettext 2to3 python3-pyelftools python3-distutils-extra
             - name: Setup Go
-              uses: actions/setup-go@v5
+              uses: actions/setup-go@main
               with:
-                go-version: '1.23.5'
+                go-version: '1.25.1'
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
@@ -44,9 +44,9 @@ jobs:
                 sed -i "212s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
                 sed -i "13s/'1'/'0'/" feeds/packages/utils/dockerd/files/etc/config/dockerd
                 sed -i 's/default n/default y/g' feeds/packages/utils/dockerd/Config.in
+                sed -i "4s/login/login -f root/" feeds/packages/utils/ttyd/files/ttyd.config
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
-                rm -rf feeds/packages/net/nfs-kernel-server
                 wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-20.1.8/llvm-bpf-20.1.8.Linux-aarch64.tar.zst
                 tar -xvf llvm-bpf-20.1.8.Linux-aarch64.tar.zst
                 cp .github/workflows/config.buildinfo .config
@@ -72,7 +72,7 @@ jobs:
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
-              uses: ncipollo/release-action@v1.14.0
+              uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
                 name: RPi 5 Firmware Images ${{ env.D }}
