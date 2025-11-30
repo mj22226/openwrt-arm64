@@ -1,0 +1,9 @@
+diff --git a/include/kernel-6.6 b/include/kernel-6.6
+index 3a848b96e5..3a63687417 100644
+--- a/include/kernel-6.6
++++ b/include/kernel-6.6
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.6 = .118
+-LINUX_KERNEL_HASH-6.6.118 = 4bdddce35474afc8d26f74ebfbcd0e1045ecd15f69e60f53529dba143374b17d
++LINUX_VERSION-6.6 = .119
++LINUX_KERNEL_HASH-6.6.119 = 48f388b28257c8dc31d4329f6b46be8ac82ccd91b9af15d14045c859592dcef0
