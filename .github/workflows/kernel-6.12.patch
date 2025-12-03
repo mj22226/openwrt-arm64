@@ -1,0 +1,22 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0358-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch b/target/linux/bcm27xx/patches-6.12/950-0358-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch
+index 9cf0c1ad16..bd8b25f608 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0358-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0358-mmc-sdhci-of-dwcmshc-define-sdio-timeout-clocks.patch
+@@ -58,7 +58,7 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
+  	.set_uhs_signaling	= dwcmshc_set_uhs_signaling,
+  	.get_max_clock		= dwcmshc_get_max_clock,
+ +	.get_timeout_clock	= sdhci_pltfm_clk_get_timeout_clock,
+- 	.reset			= sdhci_reset,
++ 	.reset			= dwcmshc_reset,
+  	.adma_write_desc	= dwcmshc_adma_write_desc,
+  	.irq			= dwcmshc_cqe_irq_handler,
+ @@ -1214,8 +1227,10 @@ static const struct sdhci_ops sdhci_dwcm
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 73c2f33a10..ee47400ffc 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .60
+-LINUX_KERNEL_HASH-6.12.60 = a63096b2147411d683cecbf87622bb2ff4885bac2b3641d3d4f10250c89cdcf8
++LINUX_VERSION-6.12 = .61
++LINUX_KERNEL_HASH-6.12.61 = 010fe7e5c34c92c69e075d1c766dd1dc202d2dc711551a7d84785a7edf7549c1
