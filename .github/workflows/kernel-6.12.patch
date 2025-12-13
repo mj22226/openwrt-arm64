@@ -1,0 +1,62 @@
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 73c2f33a10..ee47400ffc 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .62
+-LINUX_KERNEL_HASH-6.12.62 = 13e2c685ac8fab5dd992dd105732554dae514aef350c2a8c7418e7b74eb62c13
++LINUX_VERSION-6.12 = .63
++LINUX_KERNEL_HASH-6.12.63 = b28c4733f3a22e57148106bcb55f620f48c9ee474488a032132572868650c0c8
+diff --git a/target/linux/qualcommax/patches-6.12/0113-remoteproc-qcom-Add-secure-PIL-support.patch b/target/linux/qualcommax/patches-6.12/0113-remoteproc-qcom-Add-secure-PIL-support.patch
+index fc35733fa2..6b11f04808 100644
+--- a/target/linux/qualcommax/patches-6.12/0113-remoteproc-qcom-Add-secure-PIL-support.patch
++++ b/target/linux/qualcommax/patches-6.12/0113-remoteproc-qcom-Add-secure-PIL-support.patch
+@@ -25,7 +25,7 @@ Signed-off-by: Nikhil Prakash V <nprakash@codeaurora.org>
+ @@ -86,6 +87,9 @@
+  #define TCSR_WCSS_CLK_ENABLE	0x14
+  
+- #define MAX_HALT_REG		3
++ #define MAX_HALT_REG		4
+ +
+ +#define WCNSS_PAS_ID		6
+ +
+diff --git a/target/linux/qualcommax/patches-6.12/0116-remoteproc-qcom-Update-regmap-offsets-for-halt-regis.patch b/target/linux/qualcommax/patches-6.12/0116-remoteproc-qcom-Update-regmap-offsets-for-halt-regis.patch
+index 7989dfa5c9..c9795b8028 100644
+--- a/target/linux/qualcommax/patches-6.12/0116-remoteproc-qcom-Update-regmap-offsets-for-halt-regis.patch
++++ b/target/linux/qualcommax/patches-6.12/0116-remoteproc-qcom-Update-regmap-offsets-for-halt-regis.patch
+@@ -13,15 +13,6 @@ Signed-off-by: Sricharan R <sricharan@codeaurora.org>
+ 
+ --- a/drivers/remoteproc/qcom_q6v5_wcss.c
+ +++ b/drivers/remoteproc/qcom_q6v5_wcss.c
+-@@ -86,7 +86,7 @@
+- #define TCSR_WCSS_CLK_MASK	0x1F
+- #define TCSR_WCSS_CLK_ENABLE	0x14
+- 
+--#define MAX_HALT_REG		3
+-+#define MAX_HALT_REG		4
+- 
+- #define WCNSS_PAS_ID		6
+- 
+ @@ -155,6 +155,7 @@ struct wcss_data {
+  	u32 version;
+  	bool aon_reset_required;
+@@ -48,19 +39,6 @@ Signed-off-by: Sricharan R <sricharan@codeaurora.org>
+  	}
+  
+  	return 0;
+-@@ -929,9 +933,9 @@ static int q6v5_wcss_init_mmio(struct q6
+- 		return -EINVAL;
+- 	}
+- 
+--	wcss->halt_q6 = halt_reg[0];
+--	wcss->halt_wcss = halt_reg[1];
+--	wcss->halt_nc = halt_reg[2];
+-+	wcss->halt_q6 = halt_reg[1];
+-+	wcss->halt_wcss = halt_reg[2];
+-+	wcss->halt_nc = halt_reg[3];
+- 
+- 	return 0;
+- }
+ @@ -1173,6 +1177,7 @@ static const struct wcss_data wcss_ipq80
+  	.crash_reason_smem = WCSS_CRASH_REASON,
+  	.aon_reset_required = true,
