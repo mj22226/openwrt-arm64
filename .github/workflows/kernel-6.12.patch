@@ -1,0 +1,71 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch b/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
+index 0d1238bfb5..5627d85883 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
+@@ -62,9 +62,9 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ --- a/drivers/i2c/busses/i2c-designware-core.h
+ +++ b/drivers/i2c/busses/i2c-designware-core.h
+ @@ -78,9 +78,12 @@
+- #define DW_IC_TX_ABRT_SOURCE			0x80
+  #define DW_IC_ENABLE_STATUS			0x9c
+  #define DW_IC_CLR_RESTART_DET			0xa8
++ #define DW_IC_SMBUS_INTR_MASK			0xcc
+ +#define DW_IC_SCL_STUCK_AT_LOW_TIMEOUT		0xac
+ +#define DW_IC_SDA_STUCK_AT_LOW_TIMEOUT		0xb0
+  #define DW_IC_COMP_PARAM_1			0xf4
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 463c22204a..834fa9956f 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .63
+-LINUX_KERNEL_HASH-6.12.63 = 9502c5ffe4b894383c97abfccf74430a84732f04ee476b9c0d87635b29df7db3
++LINUX_VERSION-6.12 = .64
++LINUX_KERNEL_HASH-6.12.64 = 7c6ef1fec9734b7659d5e083df05a6adc6e6e8f263222682fd12606d1926529a
+diff --git a/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch b/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
+index 8a81756d67..6dd84a5d55 100644
+--- a/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
++++ b/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ 
+ --- a/drivers/mmc/host/sdhci-msm.c
+ +++ b/drivers/mmc/host/sdhci-msm.c
+-@@ -1833,49 +1833,49 @@ static unsigned int sdhci_msm_get_min_cl
++@@ -1835,50 +1835,50 @@ static unsigned int sdhci_msm_get_min_clock(struct sdhci_host *host)
+  	return SDHCI_MSM_MIN_CLOCK;
+  }
+  
+@@ -48,6 +48,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ -{
+ -	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+ -	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
++-	struct mmc_ios ios = host->mmc->ios;
+ -
+ -	if (!clock) {
+ -		host->mmc->actual_clock = msm_host->clk_rate = 0;
+@@ -56,7 +57,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ -
+ -	sdhci_msm_hc_select_mode(host);
+ -
+--	msm_set_clock_rate_for_bus_mode(host, clock);
++-	msm_set_clock_rate_for_bus_mode(host, ios.clock, ios.timing);
+ -out:
+ -	__sdhci_msm_set_clock(host, clock);
+ -}
+@@ -91,6 +92,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ +// {
+ +// 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+ +// 	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
+++// 	struct mmc_ios ios = host->mmc->ios;
+ +
+ +// 	if (!clock) {
+ +// 		host->mmc->actual_clock = msm_host->clk_rate = 0;
+@@ -99,7 +101,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ +
+ +// 	sdhci_msm_hc_select_mode(host);
+ +
+-+// 	msm_set_clock_rate_for_bus_mode(host, clock);
+++// 	msm_set_clock_rate_for_bus_mode(host, ios.clock, ios.timing);
+ +// out:
+ +// 	__sdhci_msm_set_clock(host, clock);
+ +// }
