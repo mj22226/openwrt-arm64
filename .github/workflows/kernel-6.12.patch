@@ -1,0 +1,198 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0019-BCM2708-Add-core-Device-Tree-support.patch b/target/linux/bcm27xx/patches-6.12/950-0019-BCM2708-Add-core-Device-Tree-support.patch
+index 292f7f4cec..da8dbe8797 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0019-BCM2708-Add-core-Device-Tree-support.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0019-BCM2708-Add-core-Device-Tree-support.patch
+@@ -48552,7 +48552,7 @@ index 2bba59e790b8a..bf44d5769d968 100644
+  #
+  # Rule to compile a set of .o files into one .a file (with symbol table)
+  #
+-@@ -432,26 +450,15 @@ intermediate_targets = $(foreach sfx, $(2), \
++@@ -432,22 +432,6 @@ intermediate_targets = $(foreach sfx, $(2), \
+  				$(patsubst %$(strip $(1)),%$(sfx), \
+  					$(filter %$(strip $(1)), $(targets))))
+  # %.asn1.o <- %.asn1.[ch] <- %.asn1
+@@ -48572,7 +48572,14 @@ index 2bba59e790b8a..bf44d5769d968 100644
+ -ifneq ($(userprogs),)
+ -include $(srctree)/scripts/Makefile.userprogs
+ -endif
+--
++ 
++ # Single targets
++ # ---------------------------------------------------------------------------
++@@ -478,10 +462,15 @@ FORCE:
++ targets += $(filter-out $(single-subdir-goals), $(MAKECMDGOALS))
++ targets := $(filter-out $(PHONY), $(targets))
++ 
++-# Now that targets is fully known, include dtb rules if needed
+ -ifneq ($(need-dtbslist)$(dtb-y)$(dtb-)$(filter %.dtb %.dtb.o %.dtbo.o,$(targets)),)
+ -include $(srctree)/scripts/Makefile.dtbs
+ -endif
+@@ -48587,7 +48594,7 @@ index 2bba59e790b8a..bf44d5769d968 100644
+ +	   $(call intermediate_targets, .tab.o, .tab.c .tab.h)
+  
+  # Build
+- # ---------------------------------------------------------------------------
++ # Needs to be after the include of Makefile.dtbs, which updates always-y
+ diff --git a/scripts/Makefile.dtbinst b/scripts/Makefile.dtbinst
+ index 9d920419a62cf..4be9ebd3995c0 100644
+ --- a/scripts/Makefile.dtbinst
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch b/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
+index 0d1238bfb5..5627d85883 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0446-i2c-designware-Add-support-for-bus-clear-feature.patch
+@@ -62,9 +62,9 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+ --- a/drivers/i2c/busses/i2c-designware-core.h
+ +++ b/drivers/i2c/busses/i2c-designware-core.h
+ @@ -78,9 +78,12 @@
+- #define DW_IC_TX_ABRT_SOURCE			0x80
+  #define DW_IC_ENABLE_STATUS			0x9c
+  #define DW_IC_CLR_RESTART_DET			0xa8
++ #define DW_IC_SMBUS_INTR_MASK			0xcc
+ +#define DW_IC_SCL_STUCK_AT_LOW_TIMEOUT		0xac
+ +#define DW_IC_SDA_STUCK_AT_LOW_TIMEOUT		0xb0
+  #define DW_IC_COMP_PARAM_1			0xf4
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0875-PCI-brcmstb-Add-bcm2712-support.patch b/target/linux/bcm27xx/patches-6.12/950-0875-PCI-brcmstb-Add-bcm2712-support.patch
+index 361e2e23c8..0af776dc2b 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0875-PCI-brcmstb-Add-bcm2712-support.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0875-PCI-brcmstb-Add-bcm2712-support.patch
+-@@ -1490,8 +1500,9 @@ static int brcm_pcie_turn_off(struct brc
++@@ -1511,8 +1521,9 @@ static int brcm_pcie_turn_off(struct brc
+  	u32p_replace_bits(&tmp, 1, PCIE_MISC_HARD_PCIE_HARD_DEBUG_SERDES_IDDQ_MASK);
+  	writel(tmp, base + HARD_DEBUG(pcie));
+  
+ -	/* Shutdown PCIe bridge */
+--	ret = pcie->bridge_sw_init_set(pcie, 1);
++-	ret = pcie->cfg->bridge_sw_init_set(pcie, 1);
+ +	if (!(pcie->cfg->quirks & CFG_QUIRK_AVOID_BRIDGE_SHUTDOWN))
+ +		/* Shutdown PCIe bridge */
+ +		ret = pcie->cfg->bridge_sw_init_set(pcie, 1);
+  
+  	return ret;
+  }
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0876-PCI-brcmstb-Adjust-PHY-PLL-setup-to-use-a-54MHz-inpu.patch b/target/linux/bcm27xx/patches-6.12/950-0876-PCI-brcmstb-Adjust-PHY-PLL-setup-to-use-a-54MHz-inpu.patch
+index 6e6cdc9d41..d6ff3dfe73 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0876-PCI-brcmstb-Adjust-PHY-PLL-setup-to-use-a-54MHz-inpu.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0876-PCI-brcmstb-Adjust-PHY-PLL-setup-to-use-a-54MHz-inpu.patch
+@@ -24,9 +24,9 @@ Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+ 
+ --- a/drivers/pci/controller/pcie-brcmstb.c
+ +++ b/drivers/pci/controller/pcie-brcmstb.c
+-@@ -55,6 +55,10 @@
+- #define PCIE_RC_DL_MDIO_WR_DATA				0x1104
+- #define PCIE_RC_DL_MDIO_RD_DATA				0x1108
++@@ -58,6 +58,10 @@
++ #define PCIE_RC_PL_REG_PHY_CTL_1			0x1804
++ #define  PCIE_RC_PL_REG_PHY_CTL_1_REG_P2_POWERDOWN_ENA_NOSYNC_MASK	0x8
+  
+ +#define PCIE_RC_PL_PHY_CTL_15				0x184c
+ +#define  PCIE_RC_PL_PHY_CTL_15_DIS_PLL_PD_MASK		0x400000
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0888-PCI-brcmstb-don-t-use-ASPM-state-defines-for-registe.patch b/target/linux/bcm27xx/patches-6.12/950-0888-PCI-brcmstb-don-t-use-ASPM-state-defines-for-registe.patch
+index fc494d55ce..26b1f000e9 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0888-PCI-brcmstb-don-t-use-ASPM-state-defines-for-registe.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0888-PCI-brcmstb-don-t-use-ASPM-state-defines-for-registe.patch
+@@ -24,25 +24,25 @@ Signed-off-by: Jonathan Bell <jonathan@raspberrypi.com>
+ @@ -47,6 +47,9 @@
+  
+  #define PCIE_RC_CFG_PRIV1_LINK_CAPABILITY			0x04dc
+- #define  PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_MASK	0xc00
++ #define  PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_MAX_LINK_WIDTH_MASK	0x1f0
+ +#define  PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_L0S	0x1
+ +#define  PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_L1	0x2
+ +#define  PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_MAX_LINK_SPEED_MASK	0xf
+  
+  #define PCIE_RC_CFG_PRIV1_ROOT_CAP			0x4f8
+  #define  PCIE_RC_CFG_PRIV1_ROOT_CAP_L1SS_MODE_MASK	0xf8
+-@@ -1205,10 +1208,11 @@ static int brcm_pcie_setup(struct brcm_p
++@@ -1208,10 +1211,11 @@ static int brcm_pcie_setup(struct brcm_p
+  		pcie->msi_target_addr = BRCM_MSI_TARGET_ADDR_GT_4GB;
+  
+  
+ -	/* Don't advertise L0s capability if 'aspm-no-l0s' */
+--	aspm_support = PCIE_LINK_STATE_L1;
++-	tmp = readl(base + PCIE_RC_CFG_PRIV1_LINK_CAPABILITY);
+ +	/* Always advertise L1 capability */
+ +	aspm_support = PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_L1;
+ +	/* Advertise L0s capability unless 'aspm-no-l0s' is set */
+- 	if (!of_property_read_bool(pcie->np, "aspm-no-l0s"))
+--		aspm_support |= PCIE_LINK_STATE_L0S;
++ 	if (of_property_read_bool(pcie->np, "aspm-no-l0s"))
++-		tmp &= ~PCI_EXP_LNKCAP_ASPM_L0S;
+ +		aspm_support |= PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_L0S;
+- 	tmp = readl(base + PCIE_RC_CFG_PRIV1_LINK_CAPABILITY);
+- 	u32p_replace_bits(&tmp, aspm_support,
+- 		PCIE_RC_CFG_PRIV1_LINK_CAPABILITY_ASPM_SUPPORT_MASK);
++ 	writel(tmp, base + PCIE_RC_CFG_PRIV1_LINK_CAPABILITY);
++ 
++ 	/* 'tmp' still holds the contents of PRIV1_LINK_CAPABILITY */
+diff --git a/target/linux/econet/patches-6.12/901-nand-enable-en75-bbt.patch b/target/linux/econet/patches-6.12/901-nand-enable-en75-bbt.patch
+index 67c7c9ba6a..91e184bd96 100644
+--- a/target/linux/econet/patches-6.12/901-nand-enable-en75-bbt.patch
++++ b/target/linux/econet/patches-6.12/901-nand-enable-en75-bbt.patch
+@@ -14,9 +14,9 @@ Signed-off-by: Caleb James DeLisle <cjd@cjdns.fr>
+  obj-$(CONFIG_MTD_NAND_ECC_MEDIATEK) += ecc-mtk.o
+ -obj-$(CONFIG_MTD_NAND_MTK_BMT)	+= mtk_bmt.o mtk_bmt_v2.o mtk_bmt_bbt.o mtk_bmt_nmbm.o
+ +obj-$(CONFIG_MTD_NAND_MTK_BMT)	+= mtk_bmt.o mtk_bmt_v2.o mtk_bmt_bbt.o mtk_bmt_nmbm.o en75_bmt.o
+- ifeq ($(CONFIG_SPI_QPIC_SNAND),y)
+  obj-$(CONFIG_SPI_QPIC_SNAND) += qpic_common.o
+- else
++ obj-$(CONFIG_MTD_NAND_QCOM) += qpic_common.o
++ obj-y	+= onenand/
+ --- a/drivers/mtd/nand/mtk_bmt.h
+ +++ b/drivers/mtd/nand/mtk_bmt.h
+ @@ -77,6 +77,7 @@ extern struct bmt_desc bmtd;
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 463c22204a..834fa9956f 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .63
+-LINUX_KERNEL_HASH-6.12.63 = 9502c5ffe4b894383c97abfccf74430a84732f04ee476b9c0d87635b29df7db3
++LINUX_VERSION-6.12 = .64
++LINUX_KERNEL_HASH-6.12.64 = a335a955894d8f00ff8df3c93b7859789f443f4229c5a0708606f88791edfacd
+diff --git a/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch b/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
+index 8a81756d67..6dd84a5d55 100644
+--- a/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
++++ b/target/linux/ipq40xx/patches-6.12/401-mmc-sdhci-msm-comment-unused-sdhci_msm_set_clock.patch
+@@ -13,7 +13,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ 
+ --- a/drivers/mmc/host/sdhci-msm.c
+ +++ b/drivers/mmc/host/sdhci-msm.c
+-@@ -1833,49 +1833,49 @@ static unsigned int sdhci_msm_get_min_cl
++@@ -1835,50 +1835,50 @@ static unsigned int sdhci_msm_get_min_clock(struct sdhci_host *host)
+  	return SDHCI_MSM_MIN_CLOCK;
+  }
+  
+@@ -48,6 +48,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ -{
+ -	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+ -	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
++-	struct mmc_ios ios = host->mmc->ios;
+ -
+ -	if (!clock) {
+ -		host->mmc->actual_clock = msm_host->clk_rate = 0;
+@@ -56,7 +57,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ -
+ -	sdhci_msm_hc_select_mode(host);
+ -
+--	msm_set_clock_rate_for_bus_mode(host, clock);
++-	msm_set_clock_rate_for_bus_mode(host, ios.clock, ios.timing);
+ -out:
+ -	__sdhci_msm_set_clock(host, clock);
+ -}
+@@ -91,6 +92,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ +// {
+ +// 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+ +// 	struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
+++// 	struct mmc_ios ios = host->mmc->ios;
+ +
+ +// 	if (!clock) {
+ +// 		host->mmc->actual_clock = msm_host->clk_rate = 0;
+@@ -99,7 +101,7 @@ Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+ +
+ +// 	sdhci_msm_hc_select_mode(host);
+ +
+-+// 	msm_set_clock_rate_for_bus_mode(host, clock);
+++// 	msm_set_clock_rate_for_bus_mode(host, ios.clock, ios.timing);
+ +// out:
+ +// 	__sdhci_msm_set_clock(host, clock);
+ +// }
