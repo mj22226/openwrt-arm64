@@ -1,0 +1,35 @@
+diff --git a/target/linux/generic/backport-6.12/720-04-v6.13-net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-d.patch b/target/linux/generic/backport-6.12/720-04-v6.13-net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-d.patch
+index 7161ffe069..32ada1abf4 100644
+--- a/target/linux/generic/backport-6.12/720-04-v6.13-net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-d.patch
++++ b/target/linux/generic/backport-6.12/720-04-v6.13-net-phy-mediatek-Re-organize-MediaTek-ethernet-phy-d.patch
+@@ -1238,9 +1238,9 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+ -	}
+ -
+ -	buf = (u32 *)nvmem_cell_read(cell, &len);
++-	nvmem_cell_put(cell);
+ -	if (IS_ERR(buf))
+ -		return PTR_ERR(buf);
+--	nvmem_cell_put(cell);
+ -
+ -	if (!buf[0] || !buf[1] || !buf[2] || !buf[3] || len < 4 * sizeof(u32)) {
+ -		phydev_err(phydev, "invalid efuse data\n");
+@@ -2965,9 +2965,9 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
+ +	}
+ +
+ +	buf = (u32 *)nvmem_cell_read(cell, &len);
+++	nvmem_cell_put(cell);
+ +	if (IS_ERR(buf))
+ +		return PTR_ERR(buf);
+-+	nvmem_cell_put(cell);
+ +
+ +	if (!buf[0] || !buf[1] || !buf[2] || !buf[3] || len < 4 * sizeof(u32)) {
+ +		phydev_err(phydev, "invalid efuse data\n");
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index fe68547471..e444066cba 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .64
+-LINUX_KERNEL_HASH-6.12.64 = d1ad94a33681148efe884f4028970d69e332f2b003f0e8be53a1d25de38e49a2
++LINUX_VERSION-6.12 = .65
++LINUX_KERNEL_HASH-6.12.65 = 2e2f71ce9bbd1e7d7d74766859f4b9f3d7a1b4373678c41d24a022b7b3e3cb97
