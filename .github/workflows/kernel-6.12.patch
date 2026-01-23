@@ -1,0 +1,47 @@
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index c786e6ed44..d638b2f7bf 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .66
+-LINUX_KERNEL_HASH-6.12.66 = ba3897a1c060b05a03cb4dda6f20d8c75e6f73c88b217744823a915056536eaf
++LINUX_VERSION-6.12 = .67
++LINUX_KERNEL_HASH-6.12.67 = 16805dc62e1fa5ef8a3f466f3f44a2efb171b5206d6840ced4ba5475cf12c432
+diff --git a/target/linux/rockchip/patches-6.12/160-01-phy-rockchip-inno-usb2-Simplify-rockchip-usbgrf-handling.patch b/target/linux/rockchip/patches-6.12/160-01-phy-rockchip-inno-usb2-Simplify-rockchip-usbgrf-handling.patch
+index 98d0b2c326..e6e842093a 100644
+--- a/target/linux/rockchip/patches-6.12/160-01-phy-rockchip-inno-usb2-Simplify-rockchip-usbgrf-handling.patch
++++ b/target/linux/rockchip/patches-6.12/160-01-phy-rockchip-inno-usb2-Simplify-rockchip-usbgrf-handling.patch
+@@ -160,24 +160,24 @@ Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+  		container_of(work, struct rockchip_usb2phy_port, chg_work.work);
+  	struct rockchip_usb2phy *rphy = dev_get_drvdata(rport->phy->dev.parent);
+ -	struct regmap *base = get_reg_base(rphy);
+- 	bool is_dcd, tmout, vout;
++ 	bool is_dcd, tmout, vout, vbus_attach;
+  	unsigned long delay;
+  
+-@@ -834,7 +815,7 @@ static void rockchip_chg_detect_work(str
+- 		if (!rport->suspended)
++@@ -815,7 +815,7 @@ static void rockchip_chg_detect_work(struct work_struct *work)
+  			rockchip_usb2phy_power_off(rport->phy);
+  		/* put the controller in non-driving mode */
+--		property_enable(base, &rphy->phy_cfg->chg_det.opmode, false);
+-+		property_enable(rphy->grf, &rphy->phy_cfg->chg_det.opmode, false);
++ 		if (!vbus_attach)
++-			property_enable(base, &rphy->phy_cfg->chg_det.opmode, false);
+++			property_enable(rphy->grf, &rphy->phy_cfg->chg_det.opmode, false);
+  		/* Start DCD processing stage 1 */
+  		rockchip_chg_enable_dcd(rphy, true);
+  		rphy->chg_state = USB_CHG_STATE_WAIT_FOR_DCD;
+-@@ -897,7 +878,7 @@ static void rockchip_chg_detect_work(str
+- 		fallthrough;
++@@ -879,7 +879,7 @@ static void rockchip_chg_detect_work(struct work_struct *work)
+  	case USB_CHG_STATE_DETECTED:
+  		/* put the controller in normal mode */
+--		property_enable(base, &rphy->phy_cfg->chg_det.opmode, true);
+-+		property_enable(rphy->grf, &rphy->phy_cfg->chg_det.opmode, true);
++ 		if (!vbus_attach)
++-			property_enable(base, &rphy->phy_cfg->chg_det.opmode, true);
+++			property_enable(rphy->grf, &rphy->phy_cfg->chg_det.opmode, true);
+  		rockchip_usb2phy_otg_sm_work(&rport->otg_sm_work.work);
+  		dev_dbg(&rport->phy->dev, "charger = %s\n",
+  			 chg_to_string(rphy->chg_type));
