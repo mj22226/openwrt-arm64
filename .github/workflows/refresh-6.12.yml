@@ -1,0 +1,528 @@
+name: Refresh kernel 6.12
+on:
+   workflow_dispatch:
+jobs:
+    build:
+        name: Refresh kernel
+        runs-on: ubuntu-24.04-arm
+        steps:
+             - name: Setup Ubuntu
+               run: |
+                sudo apt update
+                sudo apt install -y subversion build-essential gettext 2to3 python3-pyelftools python3-distutils-extra
+             - name: checkout
+               uses: actions/checkout@main
+             - name: refresh kernel              
+               run: |
+                wget https://github.com/mj22226/openwrt-arm64/releases/download/openwrt-arm64/openwrt.tar.xz
+                tar xvf openwrt.tar.xz
+                git config --global user.email mj8263788@gmail.com
+                git config --global user.name 'Marty Jones'
+                cp -rf .github/workflows/rc.patch openwrt/
+                cp -rf .github/workflows/kernel-6.12.patch openwrt/
+                cd openwrt
+                git pull
+                git am rc.patch
+
+
+
+
+
+
+                
+                git apply kernel-6.12.patch
+
+
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_airoha=y" > .config
+                echo "CONFIG_TARGET_airoha_en7523=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_apm821xx=y" > .config
+                echo "CONFIG_TARGET_apm821xx_nand=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_armsr=y" > .config
+                echo "CONFIG_TARGET_armsr_armv8=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_at91=y" > .config
+                echo "CONFIG_TARGET_at91_sam9x=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_ath79=y" > .config
+                echo "CONFIG_TARGET_ath79_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_bcm27xx=y" > .config
+                echo "CONFIG_TARGET_bcm27xx_bcm2712=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_bcm47xx=y" > .config
+                echo "CONFIG_TARGET_bcm47xx_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_bcm4908=y" > .config
+                echo "CONFIG_TARGET_bcm4908_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_bcm53xx=y" > .config
+                echo "CONFIG_TARGET_bcm53xx_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_bmips=y" > .config
+                echo "CONFIG_TARGET_bmips_bcm6368=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_d1=y" > .config
+                echo "CONFIG_TARGET_d1_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_gemini=y" > .config
+                echo "CONFIG_TARGET_gemini_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_imx=y" > .config
+                echo "CONFIG_TARGET_imx_cortexa53=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_ipq40xx=y" > .config
+                echo "CONFIG_TARGET_ipq40xx_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_ipq806x=y" > .config
+                echo "CONFIG_TARGET_ipq806x_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_ixp4xx=y" > .config
+                echo "CONFIG_TARGET_ixp4xx_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_kirkwood=y" > .config
+                echo "CONFIG_TARGET_kirkwood_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_lantiq=y" > .config
+                echo "CONFIG_TARGET_lantiq_xway=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_layerscape=y" > .config
+                echo "CONFIG_TARGET_layerscape_armv7=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_loongarch64=y" > .config
+                echo "CONFIG_TARGET_loongarch64_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_malta=y" > .config
+                echo "CONFIG_TARGET_malta_be=y" >> .config
+                echo "CONFIG_TARGET_malta_be_Default=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_mediatek=y" > .config
+                echo "CONFIG_TARGET_mediatek_filogic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_mpc85xx=y" > .config
+                echo "CONFIG_TARGET_mpc85xx_p1010=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_mvebu=y" > .config
+                echo "CONFIG_TARGET_mvebu_cortexa53=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_mxs=y" > .config
+                echo "CONFIG_TARGET_mxs_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_octeon=y" > .config
+                echo "CONFIG_TARGET_octeon_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_omap=y" > .config
+                echo "CONFIG_TARGET_omap_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_pistachio=y" > .config
+                echo "CONFIG_TARGET_pistachio_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_qoriq=y" > .config
+                echo "CONFIG_TARGET_qoriq_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_qualcommax=y" > .config
+                echo "CONFIG_TARGET_qualcommax_ipq807x=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_ramips=y" > .config
+                echo "CONFIG_TARGET_ramips_mt7620=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_realtek=y" > .config
+                echo "CONFIG_TARGET_realtek_rtl838x=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_rockchip=y" > .config
+                echo "CONFIG_TARGET_rockchip_armv8=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_sifiveu=y" > .config
+                echo "CONFIG_TARGET_sifiveu_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_siflower=y" > .config
+                echo "CONFIG_TARGET_siflower_sf21=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_starfive=y" > .config
+                echo "CONFIG_TARGET_starfive_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_stm32=y" > .config
+                echo "CONFIG_TARGET_stm32_stm32mp1=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_sunxi=y" > .config
+                echo "CONFIG_TARGET_sunxi_cortexa53=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -rf build_dir/target*
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_tegra=y" > .config
+                echo "CONFIG_TARGET_tegra_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_uml=y" > .config
+                echo "CONFIG_TARGET_uml_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_x86=y" > .config
+                echo "CONFIG_TARGET_x86_64=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_zynq=y" > .config
+                echo "CONFIG_TARGET_zynq_generic=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_qualcommbe=y" > .config
+                echo "CONFIG_TARGET_qualcommbe_ipq95xx=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_econet=y" > .config
+                echo "CONFIG_TARGET_econet_en751221=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                rm -f .config
+                rm -rf tmp
+                echo "CONFIG_TARGET_microchipsw=y" > .config
+                echo "CONFIG_TARGET_microchipsw_lan969x=y" >> .config
+                echo "CONFIG_ALL_KMODS=y" >> .config
+                echo "CONFIG_EXPERIMENTAL=y" >> .config
+                make defconfig
+                make target/linux/{clean,refresh} -j$(nproc) V=s
+
+                git clean -d -f .
+                rm -f *.patch
+                git add target/linux/generic/backport-6.12 || true
+                git add target/linux/generic/hack-6.12 || true
+                git add target/linux/generic/pending-6.12 || true
+                git add target/linux/generic/kernel-6.12 || true
+                git add target/linux/generic/config-6.12 || true
+                git add target/linux/airoha/patches-6.12 || true
+                git add target/linux/apm821xx/patches-6.12 || true
+                git add target/linux/armsr/patches-6.12 || true
+                git add target/linux/at91/patches-6.12 || true
+                git add target/linux/ath79/patches-6.12 || true
+                git add target/linux/bcm27xx/patches-6.12 || true
+                git add target/linux/bcm47xx/patches-6.12 || true
+                git add target/linux/bcm4908/patches-6.12 || true
+                git add target/linux/bcm53xx/patches-6.12 || true
+                git add target/linux/bmips/patches-6.12 || true
+                git add target/linux/d1/patches-6.12 || true
+                git add target/linux/gemini/patches-6.12 || true
+                git add target/linux/imx/patches-6.12 || true
+                git add target/linux/ipq40xx/patches-6.12 || true
+                git add target/linux/ipq806x/patches-6.12 || true
+                git add target/linux/ixp4xx/patches-6.12 || true
+                git add target/linux/kirkwood/patches-6.12 || true
+                git add target/linux/lantiq/patches-6.12 || true
+                git add target/linux/layerscape/patches-6.12 || true
+                git add target/linux/loongarch64/patches-6.12 || true
+                git add target/linux/malta/patches-6.12 || true
+                git add target/linux/mediatek/patches-6.12 || true
+                git add target/linux/mpc85xx/patches-6.12 || true
+                git add target/linux/mvebu/patches-6.12 || true
+                git add target/linux/mxs/patches-6.12 || true
+                git add target/linux/octeon/patches-6.12 || true
+                git add target/linux/omap/patches-6.12 || true
+                git add target/linux/pistachio/patches-6.12 || true
+                git add target/linux/qoriq/patches-6.12 || true
+                git add target/linux/qualcommax/patches-6.12 || true
+                git add target/linux/ramips/patches-6.12 || true
+                git add target/linux/realtek/patches-6.12 || true
+                git add target/linux/rockchip/patches-6.12 || true
+                git add target/linux/sifiveu/patches-6.12 || true
+                git add target/linux/siflower/patches-6.12 || true
+                git add target/linux/starfive/patches-6.12 || true
+                git add target/linux/stm32/patches-6.12 || true
+                git add target/linux/sunxi/patches-6.12 || true
+                git add target/linux/tegra/patches-6.12 || true
+                git add target/linux/x86/patches-6.12 || true
+                git add target/linux/zynq/patches-6.12 || true
+                git add target/linux/qualcommbe/patches-6.12 || true
+                git add target/linux/econet/patches-6.12 || true
+                git add target/linux/uml/patches-6.12 || true
+                git add target/linux/microchipsw/patches-6.12 || true
+                git commit -s -m "kernel: Linux 6.12.69" -m "https://lore.kernel.org/all/20260204143846.906385641@linuxfoundation.org";
+                git format-patch -1
+
+                echo "D=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+             - name: Delete tag
+               uses: ClementTsang/delete-tag-and-release@v0.4.0
+               with:
+                delete_release: true
+                tag_name: kernel-6.12
+               env:
+                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+             - name: Create release
+               uses: ncipollo/release-action@main
+               with:
+                allowUpdates: true
+                name: Kernel 6.12 ${{ env.D }}
+                tag: kernel-6.12
+                replacesArtifacts: true
+                makeLatest: true
+                token: "${{ secrets.GITHUB_TOKEN }}"
+                artifacts: |
+                          openwrt/*.patch
