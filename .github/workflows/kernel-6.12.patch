@@ -1,0 +1,78 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0071-drivers-mfd-sensehat-Add-Raspberry-Pi-Sense-HAT-to-s.patch b/target/linux/bcm27xx/patches-6.12/950-0071-drivers-mfd-sensehat-Add-Raspberry-Pi-Sense-HAT-to-s.patch
+index 59f27ca0b9..169b616793 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0071-drivers-mfd-sensehat-Add-Raspberry-Pi-Sense-HAT-to-s.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0071-drivers-mfd-sensehat-Add-Raspberry-Pi-Sense-HAT-to-s.patch
+@@ -20,9 +20,9 @@ Signed-off-by: Charles Mirabile <cmirabil@redhat.com>
+ --- a/drivers/mfd/simple-mfd-i2c.c
+ +++ b/drivers/mfd/simple-mfd-i2c.c
+ @@ -88,6 +88,7 @@ static const struct of_device_id simple_
++ 	{ .compatible = "maxim,max77705-battery", .data = &maxim_mon_max77705},
+  	{ .compatible = "silergy,sy7636a", .data = &silergy_sy7636a},
+- 	{ .compatible = "maxim,max5970", .data = &maxim_max5970},
+- 	{ .compatible = "maxim,max5978", .data = &maxim_max5970},
++ 	{ .compatible = "spacemit,p1", .data = &spacemit_p1, },
+ +	{ .compatible = "raspberrypi,sensehat" },
+  	{}
+  };
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0262-mfd-simple-mfd-i2c-Add-configuration-for-RPi-POE-HAT.patch b/target/linux/bcm27xx/patches-6.12/950-0262-mfd-simple-mfd-i2c-Add-configuration-for-RPi-POE-HAT.patch
+index e366e93da8..7f5f5dbd9a 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0262-mfd-simple-mfd-i2c-Add-configuration-for-RPi-POE-HAT.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0262-mfd-simple-mfd-i2c-Add-configuration-for-RPi-POE-HAT.patch
+@@ -53,9 +53,9 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+  {
+  	const struct simple_mfd_data *simple_mfd_data;
+ @@ -88,6 +97,7 @@ static const struct of_device_id simple_
++ 	{ .compatible = "maxim,max77705-battery", .data = &maxim_mon_max77705},
+  	{ .compatible = "silergy,sy7636a", .data = &silergy_sy7636a},
+- 	{ .compatible = "maxim,max5970", .data = &maxim_max5970},
+- 	{ .compatible = "maxim,max5978", .data = &maxim_max5970},
++ 	{ .compatible = "spacemit,p1", .data = &spacemit_p1, },
+ +	{ .compatible = "raspberrypi,poe-core", &rpi_poe_core },
+  	{ .compatible = "raspberrypi,sensehat" },
+  	{}
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 3b9c474086..099f6a18d5 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .74
+-LINUX_KERNEL_HASH-6.12.74 = 3b56eeb1dc9a437f189ca56b823be3769994f59a4ea0895b08ec0d20acaca13e
++LINUX_VERSION-6.12 = .75
++LINUX_KERNEL_HASH-6.12.75 = f71accce24dc45d614104453899609a3d1b21104183e989d0760572aeb4b3607
+diff --git a/target/linux/lantiq/patches-6.12/101-find_active_root.patch b/target/linux/lantiq/patches-6.12/101-find_active_root.patch
+index 99e187a012..a598ba3940 100644
+--- a/target/linux/lantiq/patches-6.12/101-find_active_root.patch
++++ b/target/linux/lantiq/patches-6.12/101-find_active_root.patch
+@@ -58,17 +58,6 @@ Signed-off-by: Mathias Kresin <openwrt@kresin.me>
+  
+  	/* Pull of_node from the master device node */
+  	mtd_node = mtd_get_of_node(master);
+-@@ -95,7 +129,9 @@ static int parse_fixed_partitions(struct
+- 		return 0;
+- 
+- 	parts = kcalloc(nr_parts, sizeof(*parts), GFP_KERNEL);
+--	if (!parts)
+-+	part_nodes = kcalloc(nr_parts, sizeof(*part_nodes), GFP_KERNEL);
+-+
+-+	if (!parts || !part_nodes)
+- 		return -ENOMEM;
+- 
+- 	i = 0;
+ @@ -166,6 +202,11 @@ static int parse_fixed_partitions(struct
+  		if (of_property_read_bool(pp, "slc-mode"))
+  			parts[i].add_flags |= MTD_SLC_ON_MLC_EMULATION;
+@@ -90,11 +79,11 @@ Signed-off-by: Mathias Kresin <openwrt@kresin.me>
+ +
+ +	kfree(part_nodes);
+ +
+- 	*pparts = parts;
+- 	return nr_parts;
++ 	if (dedicated)
++ 		of_node_put(ofpart_node);
+  
+ @@ -185,6 +231,7 @@ ofpart_fail:
+- ofpart_none:
++ 		of_node_put(ofpart_node);
+  	of_node_put(pp);
+  	kfree(parts);
+ +	kfree(part_nodes);
