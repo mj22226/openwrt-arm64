@@ -11,11 +11,11 @@ jobs:
                 sudo apt update
                 sudo apt install -y subversion build-essential gettext 2to3 python3-pyelftools python3-distutils-extra
             - name: Setup Go
-              uses: actions/setup-go@v5
+              uses: actions/setup-go@main
               with:
-                go-version: '1.23.5'
+                go-version: '1.25.1'
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
@@ -29,14 +29,24 @@ jobs:
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 cd feeds/luci
+                wget https://github.com/mj22226/luci/commit/239fd8e34a7e3d85d104be72b385ce46ccb9dfb4.patch
+                rm -rf applications/luci-app-dockerman
+                git apply 239fd8e34a7e3d85d104be72b385ce46ccb9dfb4.patch
                 wget https://gist.githubusercontent.com/mj22226/363cefecd314e45b49d8eafff8473fcf/raw/f327d1fcae5513be3abbeea1c6696c1da845a635/01-diskman.patch
+                wget https://github.com/mj22226/luci/commit/8f4a290b4e8ecd64888ad1feea9c2b3c6383cc60.patch
+                wget https://github.com/mj22226/luci/commit/22c05f0beb664c8d4cbc0a9b6fa17a5feb00f5bb.patch
                 git apply 01-diskman.patch
+                git apply 8f4a290b4e8ecd64888ad1feea9c2b3c6383cc60.patch
+                git apply 22c05f0beb664c8d4cbc0a9b6fa17a5feb00f5bb.patch
                 cd -
                 cd  feeds/packages
                 wget https://gist.githubusercontent.com/mj22226/351f11e66f08f06e37a985719a31ddb4/raw/2cf67633587d351b66fdf1bd902df6494cd42e68/01-cpu.patch
                 wget https://gist.githubusercontent.com/mj22226/b66f5c1bd5fc7e1cb3cf2c690b5dbd5a/raw/b955e726cbb0948d932c8d6143229ad604320149/20-lxc.patch
                 git apply 01-cpu.patch
                 git apply 20-lxc.patch
+                rm -rf net/openvpn
+                wget https://github.com/mj22226/packages/commit/6a1a860f7b7d61ce0292a9aef9b4cea54d65ceb6.patch
+                git apply 6a1a860f7b7d61ce0292a9aef9b4cea54d65ceb6.patch
                 cd -
                 sed -i "71s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
                 sed -i "84s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
@@ -44,11 +54,12 @@ jobs:
                 sed -i "212s/'0'/'1'/" feeds/luci/applications/luci-app-statistics/root/etc/config/luci_statistics
                 sed -i "13s/'1'/'0'/" feeds/packages/utils/dockerd/files/etc/config/dockerd
                 sed -i 's/default n/default y/g' feeds/packages/utils/dockerd/Config.in
+                sed -i "4s/login/login -f root/" feeds/packages/utils/ttyd/files/ttyd.config
+                sed -i '12d' feeds/luci/applications/luci-app-attendedsysupgrade/Makefile
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a -f
-                rm -rf feeds/packages/net/nfs-kernel-server
-                wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-20.1.8/llvm-bpf-20.1.8.Linux-aarch64.tar.zst
-                tar -xvf llvm-bpf-20.1.8.Linux-aarch64.tar.zst
+                wget https://github.com/mj22226/openwrt-arm64/releases/download/bcm2712-21.1.6/llvm-bpf-21.1.6.Linux-aarch64.tar.zst
+                tar -xvf llvm-bpf-21.1.6.Linux-aarch64.tar.zst
                 cp .github/workflows/config.buildinfo .config
                 echo 'CONFIG_GOLANG_EXTERNAL_BOOTSTRAP_ROOT="/opt/hostedtoolcache/go/1.23.5/arm64/bin"' >> .config
                 echo "# CONFIG_ARM64_CONTPTE is not set" >> target/linux/generic/config-6.12
@@ -72,7 +83,7 @@ jobs:
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
-              uses: ncipollo/release-action@v1.14.0
+              uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
                 name: RPi 5 Firmware Images ${{ env.D }}
