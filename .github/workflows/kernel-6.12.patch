@@ -1,0 +1,22 @@
+diff --git a/target/linux/bcm27xx/patches-6.12/950-0955-hwmon-aht10-Fix-AHT20-initialization.patch b/target/linux/bcm27xx/patches-6.12/950-0955-hwmon-aht10-Fix-AHT20-initialization.patch
+index c30b1b779c..236a5fc638 100644
+--- a/target/linux/bcm27xx/patches-6.12/950-0955-hwmon-aht10-Fix-AHT20-initialization.patch
++++ b/target/linux/bcm27xx/patches-6.12/950-0955-hwmon-aht10-Fix-AHT20-initialization.patch
+@@ -38,7 +38,7 @@ Signed-off-by: Josh Martinez <8892161+joshermar@users.noreply.github.com>
+   */
+  static int aht10_init(struct aht10_data *data)
+  {
+--	const u8 cmd_init[] = {AHT10_CMD_INIT, AHT10_CAL_ENABLED | AHT10_MODE_CYC,
++-	const u8 cmd_init[] = {data->init_cmd, AHT10_CAL_ENABLED | AHT10_MODE_CYC,
+ -			       0x00};
+ +	u8 cmd_init[] = {AHT10_CMD_INIT, AHT10_CAL_ENABLED | AHT10_MODE_CYC, 0x00};
+ +
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 99bf5c5390..ee8386149c 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .76
+-LINUX_KERNEL_HASH-6.12.76 = bbb43e834c46e6bd49a5c28f22e679a937443404e1f653204d4b24929f3ad896
++LINUX_VERSION-6.12 = .77
++LINUX_KERNEL_HASH-6.12.77 = fd306bb612fe932adcbe2c18102e0013a7be2ae3ee1bf49a1314928284d4287f
