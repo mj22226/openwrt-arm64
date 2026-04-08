@@ -1,0 +1,22 @@
+diff --git a/target/linux/generic/kernel-6.12 b/target/linux/generic/kernel-6.12
+index 427a005af7..4e1c4950f6 100644
+--- a/target/linux/generic/kernel-6.12
++++ b/target/linux/generic/kernel-6.12
+@@ -1,2 +1,2 @@
+-LINUX_VERSION-6.12 = .80
+-LINUX_KERNEL_HASH-6.12.80 = c92591d896e79ecddbc3319136f0c2f855e832b397de7593f013ad7590a43e53
++LINUX_VERSION-6.12 = .81
++LINUX_KERNEL_HASH-6.12.81 = 439d9de3016c55da23764470a6bdc408f65c16deed68207502302cd1179156ea
+diff --git a/target/linux/generic/pending-6.12/360-Revert-MIPS-mm-kmalloc-tlb_vpn-array-to-avoid-stack-.patch b/target/linux/generic/pending-6.12/360-Revert-MIPS-mm-kmalloc-tlb_vpn-array-to-avoid-stack-.patch
+index 522fccd8e2..72c422e0e9 100644
+--- a/target/linux/generic/pending-6.12/360-Revert-MIPS-mm-kmalloc-tlb_vpn-array-to-avoid-stack-.patch
++++ b/target/linux/generic/pending-6.12/360-Revert-MIPS-mm-kmalloc-tlb_vpn-array-to-avoid-stack-.patch
+@@ -39,7 +39,7 @@ This reverts commit 63a93d1cd6077d79735f804f5a4957bfb240280c.
+  
+ -	tlb_vpn_size = tlbsize * sizeof(*tlb_vpns);
+ -	tlb_vpns = (use_slab ?
+--		    kmalloc(tlb_vpn_size, GFP_KERNEL) :
++-		    kmalloc(tlb_vpn_size, GFP_ATOMIC) :
+ -		    memblock_alloc_raw(tlb_vpn_size, sizeof(*tlb_vpns)));
+ -	if (WARN_ON(!tlb_vpns))
+ -		return; /* Pray local_flush_tlb_all() is good enough. */
