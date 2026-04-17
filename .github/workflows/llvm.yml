@@ -7,11 +7,13 @@ jobs:
         runs-on: ubuntu-24.04-arm
         steps:
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
                 cd openwrt
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/22972.patch
+                git apply 22972.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 echo "CONFIG_TARGET_bcm27xx=y" > .config
@@ -37,15 +39,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: bcm2712-21.1.6
+                tag_name: bcm2712-22.1.3
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
-                name: BCM2712 LLVM TOOLCHAIN v21.1.6 aarch64 ${{ env.D }}
-                tag: bcm2712-21.1.6
+                name: BCM2712 LLVM TOOLCHAIN v22.1.3 aarch64 ${{ env.D }}
+                tag: bcm2712-22.1.3
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
@@ -56,11 +58,13 @@ jobs:
         runs-on: ubuntu-24.04-arm
         steps:
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
                 cd openwrt
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/22972.patch
+                git apply 22972.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 echo "CONFIG_TARGET_mediatek=y" > .config
@@ -87,15 +91,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: filogic-21.1.6
+                tag_name: filogic-22.1.3
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
-                name: FILOGIC LLVM TOOLCHAIN v21.1.6 aarch64 ${{ env.D }}
-                tag: filogic-21.1.6
+                name: FILOGIC LLVM TOOLCHAIN v22.1.3 aarch64 ${{ env.D }}
+                tag: filogic-22.1.3
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
@@ -106,11 +110,13 @@ jobs:
         runs-on: ubuntu-24.04-arm
         steps:
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
                 cd openwrt
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/22972.patch
+                git apply 22972.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 echo "CONFIG_TARGET_qualcommax=y" > .config
@@ -136,15 +142,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: ipq807x-21.1.6
+                tag_name: ipq807x-22.1.3
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
-                name: IPQ807X LLVM TOOLCHAIN v21.1.6 aarch64 ${{ env.D }}
-                tag: ipq807x-21.1.6
+                name: IPQ807X LLVM TOOLCHAIN v22.1.3 aarch64 ${{ env.D }}
+                tag: ipq807x-22.1.3
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
@@ -159,11 +165,13 @@ jobs:
                 sudo apt update
                 sudo apt install -y subversion build-essential gettext 2to3 python3-pyelftools python3-distutils-extra
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
                 cd openwrt
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/22972.patch
+                git apply 22972.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 echo "CONFIG_TARGET_rockchip=y" > .config
@@ -189,15 +197,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: rockchip-21.1.6
+                tag_name: rockchip-22.1.3
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
-                name: ROCKCHIP LLVM TOOLCHAIN v21.1.6 aarch64 ${{ env.D }}
-                tag: rockchip-21.1.6
+                name: ROCKCHIP LLVM TOOLCHAIN v22.1.3 aarch64 ${{ env.D }}
+                tag: rockchip-22.1.3
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
@@ -208,11 +216,13 @@ jobs:
         runs-on: ubuntu-24.04-arm
         steps:
             - name: checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@main
             - name: Build
               run: |
                 git clone https://github.com/openwrt/openwrt.git
                 cd openwrt
+                wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/22972.patch
+                git apply 22972.patch
                 ./scripts/feeds update -a
                 ./scripts/feeds install -a
                 echo "CONFIG_TARGET_x86=y" > .config
@@ -238,15 +248,15 @@ jobs:
               uses: ClementTsang/delete-tag-and-release@v0.4.0
               with:
                 delete_release: true
-                tag_name: x86_64-21.1.6
+                tag_name: x86_64-22.1.3
               env:
                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Create release
               uses: ncipollo/release-action@main
               with:
                 allowUpdates: true
-                name: X86_64 LLVM TOOLCHAIN v21.1.6 aarch64 ${{ env.D }}
-                tag: x86_64-21.1.6
+                name: X86_64 LLVM TOOLCHAIN v22.1.3 aarch64 ${{ env.D }}
+                tag: x86_64-22.1.3
                 replacesArtifacts: true
                 makeLatest: true
                 token: "${{ secrets.GITHUB_TOKEN }}"
